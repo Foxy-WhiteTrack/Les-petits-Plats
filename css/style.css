@@ -21,13 +21,14 @@ h3 {
 }
 
 header h1 {
-    font-family: "DM Sans", sans-serif;
     font-size: 44px;
     color: #FFD15B;
     margin: 0 auto;
     text-align: center;
-    width: 70%;
+    width: 75%;
     margin-top: 245px;
+    font-weight: 400;
+    line-height: 66.24px;
 
 }
 
@@ -56,10 +57,10 @@ ul {
 
 #header-ctn-title input {
     width: 100%;
-    height: 80px;
+    height: 72px;
     border-radius: 10px;
     outline: none;
-    color: #000000;
+    color: #7A7A7A;
     font-size: 25px;
     padding-left: 40px;
     border: none;
@@ -70,7 +71,7 @@ ul {
     display: flex;
     align-items: center;
     position: relative;
-    padding-top: 50px;
+    padding-top: 25px;
 }
 
 #input-header i {
@@ -88,4 +89,57 @@ ul {
     background-color: #FFD15B;
     cursor: pointer;
     color: black;
+}
+
+#filter-all {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    width: 100%;
+    align-items: baseline;
+    max-width: 1440px;
+}
+
+#filter {
+    display: flex;
+    margin-top: 20px;
+}
+
+.block-filters {
+    background-color: white;
+    width: 188px;
+    height: 56px;
+    margin-right: 50px;
+    border-radius: 11px;
+    box-shadow: 5px 5px 15px -3px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    position: relative;
+    padding: 5px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.filter-item {
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.filter-item p {
+    font-family: 'Manrope';
+}
+
+.filter-select,
+.filter-ctn i {
+    display: none;
+}
+
+#nbr-recipes {
+    font-family: 'Anton';
+    font-weight: 400;
+    font-size: 21px;
 }
