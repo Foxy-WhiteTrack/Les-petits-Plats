@@ -7,7 +7,8 @@ function createCardRecipe(recipeData) {
         image: recipeData.image,
         name: recipeData.name,
         time: recipeData.time,
-        description: recipeData.description
+        description: recipeData.description,
+        ingredients: recipeData.ingredients
     };
 }
 
@@ -17,6 +18,7 @@ function createItems() {
     recipes.forEach(itemData => {
         const item = createCardRecipe(itemData);
         items.push(item);
+
     });
 
     return items;
