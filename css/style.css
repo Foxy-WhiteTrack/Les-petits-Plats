@@ -40,6 +40,10 @@ ul {
     list-style-type: none;
 }
 
+main {
+    padding: 0 100px;
+}
+
 #header {
     background-image: url(../assets/logo/unsplash.jpg);
     object-fit: cover;
@@ -93,11 +97,10 @@ ul {
 
 #filter-all {
     display: flex;
-    justify-content: space-between;
-    position: absolute;
     width: 100%;
     align-items: baseline;
     max-width: 1440px;
+    justify-content: space-between;
 }
 
 #filter {
@@ -142,4 +145,118 @@ ul {
     font-family: 'Anton';
     font-weight: 400;
     font-size: 21px;
+}
+
+a {
+    text-decoration: none;
+}
+
+#recipes-ctn {
+    padding: 25px 0;
+    margin: 50px 0;
+}
+
+#recipes-ctn img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 25px 25px 0 0;
+}
+
+#card-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+#recipes-ctn article {
+    border-radius: 25px;
+    background-color: #EDEDED;
+    font-family: 'Manrope';
+}
+
+.tmp {
+    position: relative;
+    background-color: #FFD15B;
+    color: black;
+    padding: 10px;
+    top: -225px;
+    width: 30%;
+    text-align: center;
+    left: 238px;
+    border-radius: 25px;
+}
+
+.recipe-infos {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 25px;
+    text-decoration: none;
+    color: black;
+    line-height: 10px;
+    background-color: white;
+    height: 478px;
+    border-radius: 0 0 25px 25px;
+}
+
+.ctn-txt {
+    width: 100%;
+}
+
+.align {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.align h4 {
+    color: #7A7A7A;
+    font-weight: 700;
+    margin: 15px 0;
+}
+
+.ctn-image {
+    height: 230px;
+}
+
+.all-size {
+    display: flex;
+}
+
+.all-size h3 {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 27.1px;
+}
+
+.card-title {
+    margin: 20px 0;
+    text-align: left;
+}
+
+.ingredients,
+.all-size p {
+    line-height: 19.12px;
+}
+
+.ingredients {
+    width: 50%;
+    font-size: 14px;
+}
+
+.ingredients :nth-child(1) {
+    font-weight: 500;
+    margin: 15px 0;
+}
+
+.ingredients :nth-child(2) {
+    color: #7A7A7A;
+    font-weight: 400;
+}
+
+.description {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19.12px;
 }
