@@ -42,7 +42,7 @@ export function recipeFactory(data) {
             ingredientsHTML += `
           <div class="ingredients">
             <p>${name}</p>
-            <p>${quantity} ${unit || ''}</p>
+            <p>${quantity ? quantity : ''} ${unit ? unit : ''}</p>
           </div>
         `;
         });
@@ -52,4 +52,3 @@ export function recipeFactory(data) {
 
     return { getRecipeCardDOM };
 }
-
