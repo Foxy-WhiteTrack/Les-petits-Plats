@@ -1,9 +1,11 @@
+// Factory de recette
 export function recipeFactory(data) {
     const {
         id, image, name, time, description, ingredients
     } = data;
     const picture = `assets/images/${image}`;
 
+    // fonction pour créer la card
     function getRecipeCardDOM() {
         const article = document.createElement('article');
         article.innerHTML = `                    <a href="#" data-id="${id}">
@@ -33,6 +35,7 @@ export function recipeFactory(data) {
         return (article);
     }
 
+    // fonction pour ajouter les ingrédients à la card
     function getIngredientsHTML(ingredients) {
         let ingredientsHTML = '';
 
@@ -46,9 +49,31 @@ export function recipeFactory(data) {
           </div>
         `;
         });
-
         return ingredientsHTML;
     }
-
     return { getRecipeCardDOM };
+}
+
+// Formater les données des recettes
+function createCardRecipe(recipeData) {
+    return {
+        id: recipeData.id,
+        image: recipeData.image,
+        name: recipeData.name,
+        time: recipeData.time,
+        description: recipeData.description,
+        ingredients: recipeData.ingredients
+    };
+}
+
+// Afficher les datas recipes dans card-container
+export function displayRecipes(recipes) {
+    const recipesSection = document.querySelector('#card-container');
+
+    recipes.forEach(itemData => {
+        const item = createCardRecipe(itemData);
+        const recipeModel = recipeFactory(item);
+        const recipeCardDOM = recipeModel.getRecipeCardDOM();
+        recipesSection.appendChild(recipeCardDOM);
+    });
 }
