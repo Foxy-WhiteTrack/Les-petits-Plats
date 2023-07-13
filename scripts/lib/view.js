@@ -1,3 +1,14 @@
+const blockFilters = document.querySelectorAll('.block-filters');
+const filterCtn = document.querySelectorAll('.filter-ctn');
+const tagCtn = document.querySelectorAll('.tag-ctn');
+filterCtn.forEach(element => {
+    element.style.display = 'none';
+});
+tagCtn.forEach(element => {
+    element.style.display = 'none';
+});
+
+
 // Factory de recette
 export function recipeFactory(data) {
     const {
@@ -77,3 +88,19 @@ export function displayRecipes(recipes) {
         recipesSection.appendChild(recipeCardDOM);
     });
 }
+
+blockFilters.forEach((blockFilter) => {
+    const filterItem = blockFilter.querySelector('.filter-item');
+    const filterCtn = blockFilter.querySelector('.filter-ctn');
+    const tagCtn = blockFilter.querySelector('.tag-ctn');
+
+    filterItem.addEventListener('click', function () {
+        if (filterCtn.style.display === 'none') {
+            filterCtn.style.display = 'flex';
+            tagCtn.style.display = 'block';
+        } else {
+            filterCtn.style.display = 'none';
+            tagCtn.style.display = 'none';
+        }
+    });
+});

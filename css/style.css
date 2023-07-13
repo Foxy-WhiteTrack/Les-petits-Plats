@@ -110,8 +110,10 @@ main {
 
 .block-filters {
     background-color: white;
-    width: 188px;
-    height: 56px;
+    min-height: 56px;
+    height: fit-content;
+    min-width: 188px;
+    width: fit-content;
     margin-right: 50px;
     border-radius: 11px;
     box-shadow: 5px 5px 15px -3px rgba(0, 0, 0, 0.1);
@@ -119,6 +121,7 @@ main {
     position: relative;
     padding: 5px;
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
 }
 
@@ -136,9 +139,26 @@ main {
     font-family: 'Manrope';
 }
 
-.filter-select,
+.filter-ctn {
+    display: flex;
+    align-items: center;
+}
+
 .filter-ctn i {
-    display: none;
+    color: #C6C6C6;
+}
+
+.filter-select {
+    height: 30px;
+    border: 2px solid #C6C6C6;
+    border-color: #C6C6C6;
+}
+
+.tag-ctn {}
+
+.filter-ctn i {
+    position: absolute;
+    right: 15px;
 }
 
 #nbr-recipes {
