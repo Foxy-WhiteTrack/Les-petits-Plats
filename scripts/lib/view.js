@@ -1,7 +1,9 @@
+// Selecteurs
 const blockFilters = document.querySelectorAll('.block-filters');
 const filterCtn = document.querySelectorAll('.filter-ctn');
 const tagCtn = document.querySelectorAll('.tag-ctn');
 
+// masquer les listes tags filtres au lancement
 filterCtn.forEach(element => {
     element.style.display = 'none';
 });
@@ -16,7 +18,7 @@ export function recipeFactory(data) {
     } = data;
     const picture = `assets/images/${image}`;
 
-    // fonction pour créer la card
+    // fonction pour créer la structure HTML de la card (recette)
     // ** ToDo => A optimiser pour que l'execution soit plus rapide  **
     function makeRecipeCardDOM() {
         const article = document.createElement('article');
@@ -68,7 +70,7 @@ export function recipeFactory(data) {
 
 //
 
-// Formater les données des recettes
+// Formater (normalizer) les données des recettes
 function formatCardRecipe(recipeData) {
     return {
         id: recipeData.id,
@@ -86,6 +88,7 @@ function formatCardRecipe(recipeData) {
 export function displayRecipes(recipesParam) {
     const recipesSection = document.querySelector('#card-container');
 
+    // pour chaques recette, afficher la recette correspondante dans le DOM
     recipesParam.forEach(itemData => {
         const item = formatCardRecipe(itemData);
         const recipeModel = recipeFactory(item);
@@ -198,14 +201,20 @@ export function displayUstensils(recipesParam) {
     ustensilsSection.innerHTML += makeUstensilsHTML(ustensilsNamesArr);
 }
 
+// Vider le conteneur des recettes
+export function clearRecipes() {
+    const recipesSection = document.querySelector('#card-container');
+    recipesSection.innerHTML = '';
+}
 
-
-
+// mettre un écouteur d'évènement aux filtres tag pour les afficher ou non selon l'intéraction
+// pour chaques filtres tag
 blockFilters.forEach((blockFilter) => {
     const filterItem = blockFilter.querySelector('.filter-item');
     const filterCtn = blockFilter.querySelector('.filter-ctn');
     const tagCtn = blockFilter.querySelector('.tag-ctn');
 
+    // afficher les listes selon le click de l'utilisater
     filterItem.addEventListener('click', function () {
         if (filterCtn.style.display === 'none') {
             filterCtn.style.display = 'flex';
