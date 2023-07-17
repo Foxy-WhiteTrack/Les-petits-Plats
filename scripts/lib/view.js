@@ -76,7 +76,9 @@ function formatCardRecipe(recipeData) {
         name: recipeData.name,
         time: recipeData.time,
         description: recipeData.description,
-        ingredients: recipeData.ingredients
+        ingredients: recipeData.ingredients,
+        appliance: recipeData.appliance,
+        ustensils: recipeData.ustensils
     };
 }
 
@@ -127,6 +129,77 @@ export function displayIngredients(recipesParam) {
     // Ajouter l'HTML des ingrédients dans la section appropriée du DOM
     ingredientSection.innerHTML += makeIngredientHTML(simpleArrIngredientsForAllRecipes);
 }
+
+// Afficher les appareils dans la selectBox
+export function displayAppliances(recipesParam) {
+    const applianceSection = document.querySelector('#tag-appliances');
+    const appliancesNamesArr = [];
+
+    // Parcourir les recettes
+    recipesParam.forEach(recipeItemData => {
+        const recipeItem = formatCardRecipe(recipeItemData);
+        const appliance = recipeItem.appliance;
+
+        // Vérifier si l'appareil n'est pas déjà présent dans le tableau
+        if (!appliancesNamesArr.includes(appliance)) {
+            appliancesNamesArr.push(appliance);
+        }
+    });
+
+    // Créer l'HTML pour les appareils tag
+    function makeApplianceHTML(appliances) {
+        let appliancesHTML = '';
+
+        // Parcourir les appareils et les ajouter à l'HTML
+        appliances.forEach(appliance => {
+            appliancesHTML += `<li>${appliance}</li>`;
+        });
+
+        // Vérifier si des appareils ont été ajoutés et retourner l'HTML approprié
+        return appliancesHTML ? '<ul>' + appliancesHTML + '</ul>' : '<span>Aucun tag correspondant</span>';
+    }
+
+    // Ajouter l'HTML des appareils dans la section appropriée du DOM
+    applianceSection.innerHTML += makeApplianceHTML(appliancesNamesArr);
+}
+
+// Afficher les ustensiles dans la selectBox
+export function displayUstensils(recipesParam) {
+    const ustensilsSection = document.querySelector('#tag-ustensils');
+    const ustensilsNamesArr = [];
+
+    // Parcourir les recettes
+    recipesParam.forEach(recipeItemData => {
+        const recipeItem = formatCardRecipe(recipeItemData);
+        const ustensils = recipeItem.ustensils;
+
+        // Vérifier si les ustensiles ne sont pas déjà présents dans le tableau
+        ustensils.forEach(ustensil => {
+            if (!ustensilsNamesArr.includes(ustensil)) {
+                ustensilsNamesArr.push(ustensil);
+            }
+        });
+    });
+
+    // Créer l'HTML pour les ustensiles tag
+    function makeUstensilsHTML(ustensils) {
+        let ustensilsHTML = '';
+
+        // Parcourir les ustensiles et les ajouter à l'HTML
+        ustensils.forEach(ustensil => {
+            ustensilsHTML += `<li>${ustensil}</li>`;
+        });
+
+        // Vérifier si des ustensiles ont été ajoutés et retourner l'HTML approprié
+        return ustensilsHTML ? '<ul>' + ustensilsHTML + '</ul>' : '<span>Aucun tag correspondant</span>';
+    }
+
+    // Ajouter l'HTML des ustensiles dans la section appropriée du DOM
+    ustensilsSection.innerHTML += makeUstensilsHTML(ustensilsNamesArr);
+}
+
+
+
 
 blockFilters.forEach((blockFilter) => {
     const filterItem = blockFilter.querySelector('.filter-item');

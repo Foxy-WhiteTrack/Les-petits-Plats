@@ -6,5 +6,8 @@ function init() {
     let recipesSearch = Search.filter(recipesSource, '', []);
     View.displayRecipes(recipesSearch);
     View.displayIngredients(recipesSearch);
+    View.displayAppliances(recipesSearch);
+    View.displayUstensils(recipesSearch);
+
 }
 init();
