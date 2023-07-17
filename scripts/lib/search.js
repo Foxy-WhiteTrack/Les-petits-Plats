@@ -1,7 +1,9 @@
-// prog fonctionnelle => utiliser les fonctions des tableaux
-export function filter(recipes, searchValue, tags) {
+// import recipes from "../../datas/recipes.js";
 
-    return recipes;
+// prog fonctionnelle => utiliser les fonctions des tableaux
+export function filter(recipesParam, searchValue, tags) {
+
+    return recipesParam;
 }
 
 // vérifier si un tag est sélectionné
