@@ -207,6 +207,22 @@ export function clearRecipes() {
     recipesSection.innerHTML = '';
 }
 
+// Vider le conteneur des tags ingrédients
+export function clearIngredients() {
+    const ingredientSection = document.querySelector('#tag-ingredients');
+    ingredientSection.innerHTML = '';
+}
+// Vider le conteneur des tags appareils
+export function clearAppliances() {
+    const applianceSection = document.querySelector('#tag-appliances');
+    applianceSection.innerHTML = '';
+}
+// Vider le conteneur des tags ustensiles
+export function clearUstensiles() {
+    const ustensileSection = document.querySelector('#tag-ustensils');
+    ustensileSection.innerHTML = '';
+}
+
 // mettre un écouteur d'évènement aux filtres tag pour les afficher ou non selon l'intéraction
 // pour chaques filtres tag
 blockFilters.forEach((blockFilter) => {

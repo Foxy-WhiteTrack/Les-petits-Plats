@@ -17,6 +17,12 @@ searchInput.addEventListener('input', () => {
 
     // Mettre à jour l'affichage des recettes filtrées
     View.displayRecipes(filteredRecipes);
+    View.clearIngredients();
+    View.displayIngredients(filteredRecipes);
+    View.clearAppliances();
+    View.displayAppliances(filteredRecipes);
+    View.clearUstensiles();
+    View.displayUstensils(filteredRecipes);
 });
 
 // Initialiser l'appli (pas de recherche ni de tag + afficher les recettes)
