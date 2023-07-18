@@ -1,3 +1,6 @@
+import * as Search from "./search.js";
+import { recipes as recipesSource } from "../../datas/recipes.js";
+
 // Selecteurs
 const blockFilters = document.querySelectorAll('.block-filters');
 const filterCtn = document.querySelectorAll('.filter-ctn');
@@ -123,7 +126,7 @@ export function displayIngredients(recipesParam) {
 
         // Parcourir les ingrédients et les ajouter à l'HTML
         ingredients.forEach(ingredient => {
-            ingredientsHTML += `<li>${ingredient}</li>`;
+            ingredientsHTML += `<li class="tag">${ingredient}</li>`;
         });
 
         // Vérifier si des ingrédients ont été ajoutés et retourner l'HTML approprié
@@ -155,7 +158,7 @@ export function displayAppliances(recipesParam) {
 
         // Parcourir les appareils et les ajouter à l'HTML
         appliances.forEach(appliance => {
-            appliancesHTML += `<li>${appliance}</li>`;
+            appliancesHTML += `<li class="tag">${appliance}</li>`;
         });
 
         // Vérifier si des appareils ont été ajoutés et retourner l'HTML approprié
@@ -190,7 +193,7 @@ export function displayUstensils(recipesParam) {
 
         // Parcourir les ustensiles et les ajouter à l'HTML
         ustensils.forEach(ustensil => {
-            ustensilsHTML += `<li>${ustensil}</li>`;
+            ustensilsHTML += `<li class="tag">${ustensil}</li>`;
         });
 
         // Vérifier si des ustensiles ont été ajoutés et retourner l'HTML approprié
@@ -222,6 +225,72 @@ export function clearUstensiles() {
     const ustensileSection = document.querySelector('#tag-ustensils');
     ustensileSection.innerHTML = '';
 }
+
+export function createTagFilter(event) {
+    const selectedTag = event.target.textContent;
+    console.log('Tag sélectionné :', selectedTag);
+    displaySelectedTag(selectedTag);
+}
+
+// export function displaySelectedTag(tag) {
+//     const selectedTagContainer = document.querySelector('#selected-tags');
+
+//     // Créer un élément HTML pour la vignette du tag
+//     const tagElement = document.createElement('div');
+//     tagElement.classList.add('selected-tag');
+//     tagElement.textContent = tag;
+
+//     selectedTagContainer.appendChild(tagElement);
+// }
+
+export function displaySelectedTag(tag) {
+    const selectedTagContainer = document.querySelector('#selected-tags');
+
+    // Créer un élément HTML pour la vignette du tag
+    const tagElement = document.createElement('div');
+    tagElement.classList.add('selected-tag');
+    tagElement.textContent = tag;
+
+    // Ajouter un bouton de suppression à la vignette
+    const deleteButton = document.createElement('button');
+    deleteButton.classList.add('delete-tag');
+    deleteButton.innerHTML = '&#10005;'; // Utiliser le symbole "X" pour le bouton de suppression
+    deleteButton.addEventListener('click', () => {
+        // Supprimer le tag lorsqu'on clique sur le bouton de suppression
+        selectedTagContainer.removeChild(tagElement);
+        // Appeler la fonction de mise à jour des recettes filtrées ici
+        updateFilteredRecipes();
+    });
+
+    // Ajouter la vignette du tag à la zone de la vignette sélectionnée
+    selectedTagContainer.appendChild(tagElement);
+    tagElement.appendChild(deleteButton);
+}
+const searchInput = document.querySelector('#search-input');
+export function updateFilteredRecipes() {
+    const searchValue = searchInput.value.trim();
+    const selectedTags = Array.from(document.querySelectorAll('.selected-tag')).map(tag => tag.textContent);
+
+    const filteredRecipes = Search.filter(recipesSource, searchValue, selectedTags);
+
+    // Vider le conteneur des recettes
+    clearRecipes();
+
+    // Mettre à jour l'affichage des recettes filtrées
+    displayRecipes(filteredRecipes);
+
+
+    clearIngredients();
+    displayIngredients(filteredRecipes);
+    clearAppliances();
+    displayAppliances(filteredRecipes);
+    clearUstensiles();
+    displayUstensils(filteredRecipes);
+}
+
+
+
+
 
 // mettre un écouteur d'évènement aux filtres tag pour les afficher ou non selon l'intéraction
 // pour chaques filtres tag

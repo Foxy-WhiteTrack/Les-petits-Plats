@@ -300,3 +300,20 @@ a {
     margin-left: 25%;
     margin-right: 25%;
 }
+
+.tag-ctn ul {
+    margin-top: 10px;
+}
+
+.tag {
+    padding: 10px;
+}
+
+.tag:hover {
+    background-color: aqua;
+}
+
+#selected-tags {
+    display: flex;
+    gap: 10px;
+}
