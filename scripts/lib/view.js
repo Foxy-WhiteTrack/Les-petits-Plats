@@ -14,6 +14,18 @@ tagCtn.forEach(element => {
     element.style.display = 'none';
 });
 
+function displayError(tag) {
+    const errorDiv = document.createElement('div');
+    errorDiv.innerHTML = `<p id="error-container">Aucune recette ne contient ${tag} vous pouvez chercher «
+    tarte aux pommes », « poisson », etc.</p>`;
+    const recipesSection = document.querySelector('#card-container');
+    recipesSection.appendChild(errorDiv);
+}
+
+function sortAlphabetically(arr) {
+    return arr.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+}
+
 // Factory de recette
 export function recipeFactory(data) {
     const {
@@ -58,10 +70,12 @@ export function recipeFactory(data) {
 
         ingredients.forEach(ingredient => {
             const { ingredient: name, quantity, unit } = ingredient;
+            const formattedName = name.charAt(0).toUpperCase() + name.substring(1).toLowerCase();
+
 
             ingredientsHTML += `
           <div class="ingredients">
-            <p>${name}</p>
+            <p>${formattedName}</p>
             <p>${quantity ? quantity : ''} ${unit ? unit : ''}</p>
           </div>
         `;
@@ -118,7 +132,7 @@ export function displayIngredients(recipesParam) {
 
     })
     // récupérer les clés contenus dans le tableau ingredientsNamesArr
-    const simpleArrIngredientsForAllRecipes = Object.keys(ingredientsNamesArr);
+    const simpleArrIngredientsForAllRecipes = sortAlphabetically(Object.keys(ingredientsNamesArr));
 
     // créer l'HTML pour les ingredients tag
     function makeIngredientHTML(ingredients) {
@@ -126,7 +140,9 @@ export function displayIngredients(recipesParam) {
 
         // Parcourir les ingrédients et les ajouter à l'HTML
         ingredients.forEach(ingredient => {
-            ingredientsHTML += `<li class="tag">${ingredient}</li>`;
+            const formattedName = ingredient.charAt(0).toUpperCase() + ingredient.substring(1).toLowerCase();
+
+            ingredientsHTML += `<li class="tag">${formattedName}</li>`;
         });
 
         // Vérifier si des ingrédients ont été ajoutés et retourner l'HTML approprié
@@ -139,18 +155,19 @@ export function displayIngredients(recipesParam) {
 // Afficher les appareils dans la selectBox
 export function displayAppliances(recipesParam) {
     const applianceSection = document.querySelector('#tag-appliances');
-    const appliancesNamesArr = [];
+    const appliancesNamesArr = new Set();
 
     // Parcourir les recettes
     recipesParam.forEach(recipeItemData => {
         const recipeItem = formatCardRecipe(recipeItemData);
         const appliance = recipeItem.appliance;
 
-        // Vérifier si l'appareil n'est pas déjà présent dans le tableau
-        if (!appliancesNamesArr.includes(appliance)) {
-            appliancesNamesArr.push(appliance);
-        }
+        // Ajouter l'appareil au Set (ensemble)
+        appliancesNamesArr.add(appliance);
     });
+
+    // Convertir le Set en tableau et trier les noms d'appareils
+    const sortedAppliances = sortAlphabetically(Array.from(appliancesNamesArr));
 
     // Créer l'HTML pour les appareils tag
     function makeApplianceHTML(appliances) {
@@ -158,7 +175,8 @@ export function displayAppliances(recipesParam) {
 
         // Parcourir les appareils et les ajouter à l'HTML
         appliances.forEach(appliance => {
-            appliancesHTML += `<li class="tag">${appliance}</li>`;
+            const formattedName = appliance.charAt(0).toUpperCase() + appliance.substring(1).toLowerCase();
+            appliancesHTML += `<li class="tag">${formattedName}</li>`;
         });
 
         // Vérifier si des appareils ont été ajoutés et retourner l'HTML approprié
@@ -166,26 +184,28 @@ export function displayAppliances(recipesParam) {
     }
 
     // Ajouter l'HTML des appareils dans la section appropriée du DOM
-    applianceSection.innerHTML += makeApplianceHTML(appliancesNamesArr);
+    applianceSection.innerHTML += makeApplianceHTML(sortedAppliances);
 }
+
 
 // Afficher les ustensiles dans la selectBox
 export function displayUstensils(recipesParam) {
     const ustensilsSection = document.querySelector('#tag-ustensils');
-    const ustensilsNamesArr = [];
+    const ustensilsNamesArr = new Set();
 
     // Parcourir les recettes
     recipesParam.forEach(recipeItemData => {
         const recipeItem = formatCardRecipe(recipeItemData);
         const ustensils = recipeItem.ustensils;
 
-        // Vérifier si les ustensiles ne sont pas déjà présents dans le tableau
+        // Ajouter les ustensiles au Set (ensemble)
         ustensils.forEach(ustensil => {
-            if (!ustensilsNamesArr.includes(ustensil)) {
-                ustensilsNamesArr.push(ustensil);
-            }
+            ustensilsNamesArr.add(ustensil);
         });
     });
+
+    // Convertir le Set en tableau et trier les noms d'ustensiles
+    const sortedUstensils = sortAlphabetically(Array.from(ustensilsNamesArr));
 
     // Créer l'HTML pour les ustensiles tag
     function makeUstensilsHTML(ustensils) {
@@ -193,7 +213,8 @@ export function displayUstensils(recipesParam) {
 
         // Parcourir les ustensiles et les ajouter à l'HTML
         ustensils.forEach(ustensil => {
-            ustensilsHTML += `<li class="tag">${ustensil}</li>`;
+            const formattedName = ustensil.charAt(0).toUpperCase() + ustensil.substring(1).toLowerCase();
+            ustensilsHTML += `<li class="tag">${formattedName}</li>`;
         });
 
         // Vérifier si des ustensiles ont été ajoutés et retourner l'HTML approprié
@@ -201,8 +222,9 @@ export function displayUstensils(recipesParam) {
     }
 
     // Ajouter l'HTML des ustensiles dans la section appropriée du DOM
-    ustensilsSection.innerHTML += makeUstensilsHTML(ustensilsNamesArr);
+    ustensilsSection.innerHTML += makeUstensilsHTML(sortedUstensils);
 }
+
 
 // Vider le conteneur des recettes
 export function clearRecipes() {
@@ -232,17 +254,6 @@ export function createTagFilter(event) {
     displaySelectedTag(selectedTag);
 }
 
-// export function displaySelectedTag(tag) {
-//     const selectedTagContainer = document.querySelector('#selected-tags');
-
-//     // Créer un élément HTML pour la vignette du tag
-//     const tagElement = document.createElement('div');
-//     tagElement.classList.add('selected-tag');
-//     tagElement.textContent = tag;
-
-//     selectedTagContainer.appendChild(tagElement);
-// }
-
 export function displaySelectedTag(tag) {
     const selectedTagContainer = document.querySelector('#selected-tags');
 
@@ -254,11 +265,9 @@ export function displaySelectedTag(tag) {
     // Ajouter un bouton de suppression à la vignette
     const deleteButton = document.createElement('button');
     deleteButton.classList.add('delete-tag');
-    deleteButton.innerHTML = '&#10005;'; // Utiliser le symbole "X" pour le bouton de suppression
+    deleteButton.innerHTML = '&#10005;';
     deleteButton.addEventListener('click', () => {
-        // Supprimer le tag lorsqu'on clique sur le bouton de suppression
         selectedTagContainer.removeChild(tagElement);
-        // Appeler la fonction de mise à jour des recettes filtrées ici
         updateFilteredRecipes();
     });
 
@@ -267,6 +276,7 @@ export function displaySelectedTag(tag) {
     tagElement.appendChild(deleteButton);
 }
 const searchInput = document.querySelector('#search-input');
+
 export function updateFilteredRecipes() {
     const searchValue = searchInput.value.trim();
     const selectedTags = Array.from(document.querySelectorAll('.selected-tag')).map(tag => tag.textContent);
@@ -279,7 +289,6 @@ export function updateFilteredRecipes() {
     // Mettre à jour l'affichage des recettes filtrées
     displayRecipes(filteredRecipes);
 
-
     clearIngredients();
     displayIngredients(filteredRecipes);
     clearAppliances();
@@ -287,10 +296,6 @@ export function updateFilteredRecipes() {
     clearUstensiles();
     displayUstensils(filteredRecipes);
 }
-
-
-
-
 
 // mettre un écouteur d'évènement aux filtres tag pour les afficher ou non selon l'intéraction
 // pour chaques filtres tag

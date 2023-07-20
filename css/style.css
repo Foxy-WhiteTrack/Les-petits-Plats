@@ -316,4 +316,34 @@ a {
 #selected-tags {
     display: flex;
     gap: 10px;
+    margin: 10px 0;
+}
+
+.selected-tag,
+.selected-tag button {
+    background-color: #FFD15B;
+    font-weight: bold;
+}
+
+.selected-tag button {
+    border-color: transparent;
+    margin: 5px;
+}
+
+.selected-tag {
+    padding: 10px;
+    border-radius: 15px;
+}
+
+#error-container {
+    color: red;
+    text-align: center;
+    font-weight: bold;
+    font-size: 25px;
+    border: 1px solid red;
+    border-radius: 15px;
+    padding: 10px;
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
 }
