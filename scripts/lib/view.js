@@ -22,8 +22,9 @@ function displayError(tag) {
     recipesSection.appendChild(errorDiv);
 }
 
-function sortAlphabetically(arr) {
-    return arr.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+
+function sortTags(tags) {
+    return tags.sort(Intl.Collator().compare);
 }
 
 // Factory de recette
@@ -132,7 +133,7 @@ export function displayIngredients(recipesParam) {
 
     })
     // récupérer les clés contenus dans le tableau ingredientsNamesArr
-    const simpleArrIngredientsForAllRecipes = sortAlphabetically(Object.keys(ingredientsNamesArr));
+    const simpleArrIngredientsForAllRecipes = sortTags(Object.keys(ingredientsNamesArr));
 
     // créer l'HTML pour les ingredients tag
     function makeIngredientHTML(ingredients) {
@@ -167,7 +168,7 @@ export function displayAppliances(recipesParam) {
     });
 
     // Convertir le Set en tableau et trier les noms d'appareils
-    const sortedAppliances = sortAlphabetically(Array.from(appliancesNamesArr));
+    const sortedAppliances = sortTags(Array.from(appliancesNamesArr));
 
     // Créer l'HTML pour les appareils tag
     function makeApplianceHTML(appliances) {
@@ -205,7 +206,7 @@ export function displayUstensils(recipesParam) {
     });
 
     // Convertir le Set en tableau et trier les noms d'ustensiles
-    const sortedUstensils = sortAlphabetically(Array.from(ustensilsNamesArr));
+    const sortedUstensils = sortTags(Array.from(ustensilsNamesArr));
 
     // Créer l'HTML pour les ustensiles tag
     function makeUstensilsHTML(ustensils) {
