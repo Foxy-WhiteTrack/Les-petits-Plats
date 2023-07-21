@@ -14,14 +14,26 @@ tagCtn.forEach(element => {
     element.style.display = 'none';
 });
 
-function displayError(tag) {
-    const errorDiv = document.createElement('div');
-    errorDiv.innerHTML = `<p id="error-container">Aucune recette ne contient ${tag} vous pouvez chercher «
-    tarte aux pommes », « poisson », etc.</p>`;
-    const recipesSection = document.querySelector('#card-container');
-    recipesSection.appendChild(errorDiv);
+export function displayError(searchValue, usedTags) {
+    const errorDiv = document.querySelector('#error-container');
+    if (!errorDiv) {
+        const errorDiv = document.createElement('div');
+        errorDiv.innerHTML = `<p id="error-container">Aucune recette ne correspond à la recherche "${searchValue} " ${usedTags} vous pouvez chercher «
+        tarte aux pommes », « poisson », etc...</p>`;
+        document.body.appendChild(errorDiv);
+    } else {
+        errorDiv.innerHTML = `<p>Aucune recette ne correspond à la recherche "${searchValue} " ${usedTags} vous pouvez chercher «
+        tarte aux pommes », « poisson », etc...</p>`;
+        document.body.appendChild(errorDiv);
+    }
 }
 
+export function clearDisplayError() {
+    const errorDiv = document.querySelector('#error-container');
+    if (errorDiv) {
+        errorDiv.innerHTML = '';
+    }
+}
 
 function sortTags(tags) {
     return tags.sort(Intl.Collator().compare);
@@ -291,18 +303,24 @@ export function updateFilteredRecipes() {
     // Vider le conteneur des recettes
     clearRecipes();
 
-    // Mettre à jour l'affichage des recettes filtrées
-    displayRecipes(filteredRecipes);
+    if (filteredRecipes.length === 0) {
+        const usedTags = selectedTags.join(', ');
+        displayError(searchValue, usedTags);
+    } else {
+        clearDisplayError();
+        // Mettre à jour l'affichage des recettes filtrées
+        displayRecipes(filteredRecipes);
 
-    const nbrRecipesElement = document.querySelector('#nbr-recipes');
-    nbrRecipesElement.textContent = `${filteredRecipes.length} recette${filteredRecipes.length > 1 ? 's' : ''}`;
+        const nbrRecipesElement = document.querySelector('#nbr-recipes');
+        nbrRecipesElement.textContent = `${filteredRecipes.length} recette${filteredRecipes.length > 1 ? 's' : ''}`;
 
-    clearIngredients();
-    displayIngredients(filteredRecipes);
-    clearAppliances();
-    displayAppliances(filteredRecipes);
-    clearUstensiles();
-    displayUstensils(filteredRecipes);
+        clearIngredients();
+        displayIngredients(filteredRecipes);
+        clearAppliances();
+        displayAppliances(filteredRecipes);
+        clearUstensiles();
+        displayUstensils(filteredRecipes);
+    }
 }
 
 // mettre un écouteur d'évènement aux filtres tag pour les afficher ou non selon l'intéraction

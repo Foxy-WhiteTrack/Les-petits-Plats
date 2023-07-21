@@ -18,15 +18,57 @@ searchInput.addEventListener('input', () => {
     // Vider le conteneur des recettes
     View.clearRecipes();
 
-    // Mettre à jour l'affichage des recettes filtrées
-    View.displayRecipes(filteredRecipes);
-    View.clearIngredients();
-    View.displayIngredients(filteredRecipes);
-    View.clearAppliances();
-    View.displayAppliances(filteredRecipes);
-    View.clearUstensiles();
-    View.displayUstensils(filteredRecipes);
+    if (searchValue === '') {
+        const allRecipes = Search.filter(recipesSource, '', []);
+        View.clearRecipes();
+        View.displayRecipes(allRecipes);
+        View.clearIngredients();
+        View.displayIngredients(allRecipes);
+        View.clearAppliances();
+        View.displayAppliances(allRecipes);
+        View.clearUstensiles();
+        View.displayUstensils(allRecipes);
+    }
+
+    if (searchValue.length >= 3) {
+
+        if (filteredRecipes.length === 0) {
+            View.displayError(searchValue, '');
+        } else {
+            View.clearDisplayError();
+
+            // Mettre à jour l'affichage des recettes filtrées
+            View.displayRecipes(filteredRecipes);
+            View.clearIngredients();
+            View.displayIngredients(filteredRecipes);
+            View.clearAppliances();
+            View.displayAppliances(filteredRecipes);
+            View.clearUstensiles();
+            View.displayUstensils(filteredRecipes);
+        }
+    } else {
+        View.clearDisplayError();
+    }
 });
+
+//réinitialiser les résultats lorsque la barre de recherche est vidée
+searchInput.addEventListener('blur', () => {
+    const searchValue = searchInput.value.trim();
+
+    // Si la barre de recherche est vide, afficher toutes les recettes non filtrées
+    if (searchValue === '') {
+        const allRecipes = Search.filter(recipesSource, '', []);
+        View.clearRecipes();
+        View.displayRecipes(allRecipes);
+        View.clearIngredients();
+        View.displayIngredients(allRecipes);
+        View.clearAppliances();
+        View.displayAppliances(allRecipes);
+        View.clearUstensiles();
+        View.displayUstensils(allRecipes);
+    }
+});
+
 
 
 function eventTag(event) {
