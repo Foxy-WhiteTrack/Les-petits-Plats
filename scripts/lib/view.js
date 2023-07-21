@@ -132,6 +132,10 @@ export function displayIngredients(recipesParam) {
         })
 
     })
+
+    const nbrRecipesElement = document.querySelector('#nbr-recipes');
+    nbrRecipesElement.textContent = `${recipesParam.length} recette${recipesParam.length > 1 ? 's' : ''}`;
+
     // récupérer les clés contenus dans le tableau ingredientsNamesArr
     const simpleArrIngredientsForAllRecipes = sortTags(Object.keys(ingredientsNamesArr));
 
@@ -289,6 +293,9 @@ export function updateFilteredRecipes() {
 
     // Mettre à jour l'affichage des recettes filtrées
     displayRecipes(filteredRecipes);
+
+    const nbrRecipesElement = document.querySelector('#nbr-recipes');
+    nbrRecipesElement.textContent = `${filteredRecipes.length} recette${filteredRecipes.length > 1 ? 's' : ''}`;
 
     clearIngredients();
     displayIngredients(filteredRecipes);
