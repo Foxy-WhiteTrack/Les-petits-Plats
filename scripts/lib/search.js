@@ -20,13 +20,6 @@ export function filter(recipesParam, searchValue, tags) {
         });
     }
 
-    tags.forEach(tag => {
-        filteredRecipes = filteredRecipes.filter(recipe => {
-            // Votre logique de filtrage basée sur les tags
-            // Par exemple, vérifier si le tag est présent dans les ingrédients, appareils, ustensiles, etc.
-        });
-    });
-
     return filteredRecipes;
 }
 

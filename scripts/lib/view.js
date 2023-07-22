@@ -1,5 +1,4 @@
-import * as Search from "./search.js";
-import { recipes as recipesSource } from "../../datas/recipes.js";
+import * as Index from "../index.js";
 
 // Selecteurs
 const blockFilters = document.querySelectorAll('.block-filters');
@@ -37,6 +36,11 @@ export function clearDisplayError() {
 
 function sortTags(tags) {
     return tags.sort(Intl.Collator().compare);
+}
+
+export function getSelectedTags() {
+    const selectedTags = Array.from(document.querySelectorAll('.selected-tag')).map(tag => tag.textContent);
+    return selectedTags;
 }
 
 // Factory de recette
@@ -265,10 +269,48 @@ export function clearUstensiles() {
     ustensileSection.innerHTML = '';
 }
 
+export function removeSelectedTag(tag) {
+    const selectedTagContainer = document.querySelector('#selected-tags');
+    const selectedTags = Array.from(selectedTagContainer.querySelectorAll('.selected-tag'));
+
+    // Supprimer le tag de la liste des tags sélectionnés
+    const filteredTags = selectedTags.filter(selectedTag => selectedTag.textContent !== tag);
+    selectedTagContainer.innerHTML = '';
+    filteredTags.forEach(selectedTag => {
+        selectedTagContainer.appendChild(selectedTag);
+    });
+
+    // Mettre à jour les recettes filtrées
+    Index.updateFilteredRecipes();
+}
+
+export function restoreTag(tag) {
+    const tagContainer = document.querySelector('.tag-ctn');
+    const tagElement = document.createElement('li');
+    tagElement.classList.add('tag');
+    tagElement.textContent = tag;
+    tagElement.addEventListener('click', createTagFilter);
+
+    // Ajouter le tag à la liste des tags filtrables
+    tagContainer.appendChild(tagElement);
+}
+
 export function createTagFilter(event) {
     const selectedTag = event.target.textContent;
-    console.log('Tag sélectionné :', selectedTag);
-    displaySelectedTag(selectedTag);
+
+    const selectedTagContainer = document.querySelector('#selected-tags');
+    const selectedTags = Array.from(selectedTagContainer.querySelectorAll('.selected-tag'));
+    const tagAlreadySelected = selectedTags.some(tag => tag.textContent === selectedTag);
+
+    if (tagAlreadySelected) {
+        // Supprimer le tag de la liste des tags sélectionnés
+        removeSelectedTag(selectedTag);
+        // Réinsérer le tag dans la liste des tags filtrables
+        restoreTag(selectedTag);
+    } else {
+        // Ajouter le tag à la liste des tags sélectionnés
+        displaySelectedTag(selectedTag);
+    }
 }
 
 export function displaySelectedTag(tag) {
@@ -285,42 +327,12 @@ export function displaySelectedTag(tag) {
     deleteButton.innerHTML = '&#10005;';
     deleteButton.addEventListener('click', () => {
         selectedTagContainer.removeChild(tagElement);
-        updateFilteredRecipes();
+        Index.updateFilteredRecipes();
     });
 
     // Ajouter la vignette du tag à la zone de la vignette sélectionnée
     selectedTagContainer.appendChild(tagElement);
     tagElement.appendChild(deleteButton);
-}
-const searchInput = document.querySelector('#search-input');
-
-export function updateFilteredRecipes() {
-    const searchValue = searchInput.value.trim();
-    const selectedTags = Array.from(document.querySelectorAll('.selected-tag')).map(tag => tag.textContent);
-
-    const filteredRecipes = Search.filter(recipesSource, searchValue, selectedTags);
-
-    // Vider le conteneur des recettes
-    clearRecipes();
-
-    if (filteredRecipes.length === 0) {
-        const usedTags = selectedTags.join(', ');
-        displayError(searchValue, usedTags);
-    } else {
-        clearDisplayError();
-        // Mettre à jour l'affichage des recettes filtrées
-        displayRecipes(filteredRecipes);
-
-        const nbrRecipesElement = document.querySelector('#nbr-recipes');
-        nbrRecipesElement.textContent = `${filteredRecipes.length} recette${filteredRecipes.length > 1 ? 's' : ''}`;
-
-        clearIngredients();
-        displayIngredients(filteredRecipes);
-        clearAppliances();
-        displayAppliances(filteredRecipes);
-        clearUstensiles();
-        displayUstensils(filteredRecipes);
-    }
 }
 
 // mettre un écouteur d'évènement aux filtres tag pour les afficher ou non selon l'intéraction
