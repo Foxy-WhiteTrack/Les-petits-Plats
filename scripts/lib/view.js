@@ -1,4 +1,5 @@
 import * as Index from "../index.js";
+import * as Search from "./search.js";
 
 // Selecteurs
 const blockFilters = document.querySelectorAll('.block-filters');
@@ -14,6 +15,7 @@ tagCtn.forEach(element => {
 });
 
 export function displayError(searchValue, usedTags) {
+    console.log("dispalyError");
     const errorDiv = document.querySelector('#error-container');
     if (!errorDiv) {
         const errorDiv = document.createElement('div');
@@ -28,6 +30,7 @@ export function displayError(searchValue, usedTags) {
 }
 
 export function clearDisplayError() {
+    console.log("clearDisplayError");
     const errorDiv = document.querySelector('#error-container');
     if (errorDiv) {
         errorDiv.innerHTML = '';
@@ -35,10 +38,12 @@ export function clearDisplayError() {
 }
 
 function sortTags(tags) {
+    console.log("Tri alphabétique");
     return tags.sort(Intl.Collator().compare);
 }
 
 export function getSelectedTags() {
+    console.log("getSelectedTags");
     const selectedTags = Array.from(document.querySelectorAll('.selected-tag')).map(tag => tag.textContent);
     return selectedTags;
 }
@@ -53,6 +58,7 @@ export function recipeFactory(data) {
     // fonction pour créer la structure HTML de la card (recette)
     // ** ToDo => A optimiser pour que l'execution soit plus rapide  **
     function makeRecipeCardDOM() {
+
         const article = document.createElement('article');
         article.innerHTML = `                    <a href="#" data-id="${id}">
         <div class="ctn-image">
@@ -71,7 +77,7 @@ export function recipeFactory(data) {
                     </div>
                     <h4>INGREDIENTS</h4>
                     <div class="ctn-ingredients">
-                    ${makeIngredientsHTML(ingredients)}
+                    ${makeIngredientsDOM(ingredients)}
                 </div>
 
                 </div>
@@ -82,7 +88,8 @@ export function recipeFactory(data) {
     }
 
     // fonction pour ajouter les ingrédients à la card
-    function makeIngredientsHTML(ingredients) {
+    function makeIngredientsDOM(ingredients) {
+
         let ingredientsHTML = '';
 
         ingredients.forEach(ingredient => {
@@ -118,8 +125,9 @@ function formatCardRecipe(recipeData) {
     };
 }
 
-// Afficher les datas recipes dans card-container
-export function displayRecipes(recipesParam) {
+// Récupérer les datas à mettre dans les card
+export function createRecipes(recipesParam) {
+    console.log("création des card");
     const recipesSection = document.querySelector('#card-container');
 
     // pour chaques recette, afficher la recette correspondante dans le DOM
@@ -133,6 +141,7 @@ export function displayRecipes(recipesParam) {
 
 // Afficher les ingredients dans la selectBox
 export function displayIngredients(recipesParam) {
+    console.log("création de la liste des ingrédients pour selectBox");
     const ingredientSection = document.querySelector('#tag-ingredients');
     const ingredientsNamesArr = {};
 
@@ -157,13 +166,22 @@ export function displayIngredients(recipesParam) {
 
     // créer l'HTML pour les ingredients tag
     function makeIngredientHTML(ingredients) {
+        console.log("affichage ingrédients dans selectBox");
         let ingredientsHTML = '';
 
         // Parcourir les ingrédients et les ajouter à l'HTML
         ingredients.forEach(ingredient => {
             const formattedName = ingredient.charAt(0).toUpperCase() + ingredient.substring(1).toLowerCase();
 
-            ingredientsHTML += `<li class="tag">${formattedName}</li>`;
+            const selectedTagContainer = document.querySelector('#selected-tags');
+            const selectedTags = Array.from(selectedTagContainer.querySelectorAll('.selected-tag'));
+            const tagAlreadySelected = selectedTags.some(tag => tag.textContent === formattedName);
+
+            if (!tagAlreadySelected) {
+                ingredientsHTML += `<li class="tag">${formattedName}</li>`;
+            }
+
+
         });
 
         // Vérifier si des ingrédients ont été ajoutés et retourner l'HTML approprié
@@ -175,6 +193,7 @@ export function displayIngredients(recipesParam) {
 
 // Afficher les appareils dans la selectBox
 export function displayAppliances(recipesParam) {
+    console.log("création de la liste des appareils pour selectBox");
     const applianceSection = document.querySelector('#tag-appliances');
     const appliancesNamesArr = new Set();
 
@@ -192,6 +211,7 @@ export function displayAppliances(recipesParam) {
 
     // Créer l'HTML pour les appareils tag
     function makeApplianceHTML(appliances) {
+        console.log("affichage appareils dans selectBox");
         let appliancesHTML = '';
 
         // Parcourir les appareils et les ajouter à l'HTML
@@ -211,6 +231,7 @@ export function displayAppliances(recipesParam) {
 
 // Afficher les ustensiles dans la selectBox
 export function displayUstensils(recipesParam) {
+    console.log("création de la liste des ingrédients pour selectBox");
     const ustensilsSection = document.querySelector('#tag-ustensils');
     const ustensilsNamesArr = new Set();
 
@@ -230,6 +251,7 @@ export function displayUstensils(recipesParam) {
 
     // Créer l'HTML pour les ustensiles tag
     function makeUstensilsHTML(ustensils) {
+        console.log("affichage ingrédients dans selectBox");
         let ustensilsHTML = '';
 
         // Parcourir les ustensiles et les ajouter à l'HTML
@@ -249,27 +271,32 @@ export function displayUstensils(recipesParam) {
 
 // Vider le conteneur des recettes
 export function clearRecipes() {
+    console.log("clearRecipes");
     const recipesSection = document.querySelector('#card-container');
     recipesSection.innerHTML = '';
 }
 
 // Vider le conteneur des tags ingrédients
 export function clearIngredients() {
+    console.log("clearIngredients");
     const ingredientSection = document.querySelector('#tag-ingredients');
     ingredientSection.innerHTML = '';
 }
 // Vider le conteneur des tags appareils
 export function clearAppliances() {
+    console.log("clearAppliances");
     const applianceSection = document.querySelector('#tag-appliances');
     applianceSection.innerHTML = '';
 }
 // Vider le conteneur des tags ustensiles
 export function clearUstensiles() {
+    console.log("clearUstensiles");
     const ustensileSection = document.querySelector('#tag-ustensils');
     ustensileSection.innerHTML = '';
 }
 
 export function removeSelectedTag(tag) {
+    console.log("removeSelectedTag");
     const selectedTagContainer = document.querySelector('#selected-tags');
     const selectedTags = Array.from(selectedTagContainer.querySelectorAll('.selected-tag'));
 
@@ -284,35 +311,14 @@ export function removeSelectedTag(tag) {
     Index.updateFilteredRecipes();
 }
 
-export function restoreTag(tag) {
-    const tagContainer = document.querySelector('.tag-ctn');
-    const tagElement = document.createElement('li');
-    tagElement.classList.add('tag');
-    tagElement.textContent = tag;
-    tagElement.addEventListener('click', createTagFilter);
-
-    // Ajouter le tag à la liste des tags filtrables
-    tagContainer.appendChild(tagElement);
-}
-
+// récupérer le nom du tag
 export function createTagFilter(event) {
     const selectedTag = event.target.textContent;
-
-    const selectedTagContainer = document.querySelector('#selected-tags');
-    const selectedTags = Array.from(selectedTagContainer.querySelectorAll('.selected-tag'));
-    const tagAlreadySelected = selectedTags.some(tag => tag.textContent === selectedTag);
-
-    if (tagAlreadySelected) {
-        // Supprimer le tag de la liste des tags sélectionnés
-        removeSelectedTag(selectedTag);
-        // Réinsérer le tag dans la liste des tags filtrables
-        restoreTag(selectedTag);
-    } else {
-        // Ajouter le tag à la liste des tags sélectionnés
-        displaySelectedTag(selectedTag);
-    }
+    console.log('Tag sélectionné :', selectedTag);
+    displaySelectedTag(selectedTag);
 }
 
+// créer la vignette des tags sélectionnés
 export function displaySelectedTag(tag) {
     const selectedTagContainer = document.querySelector('#selected-tags');
 
@@ -328,6 +334,7 @@ export function displaySelectedTag(tag) {
     deleteButton.addEventListener('click', () => {
         selectedTagContainer.removeChild(tagElement);
         Index.updateFilteredRecipes();
+        Search.removeTagFilter(tag);
     });
 
     // Ajouter la vignette du tag à la zone de la vignette sélectionnée

@@ -7,6 +7,18 @@ const tagsIngredient = document.querySelector('#tag-ingredients');
 const tagsAppliance = document.querySelector('#tag-appliances');
 const tagsUstensil = document.querySelector('#tag-ustensils');
 
+function updateRecipes(recipes, clearIsNeed) {
+    if (clearIsNeed) {
+        View.clearIngredients();
+        View.clearAppliances();
+        View.clearUstensiles();
+    }
+    View.createRecipes(recipes);
+    View.displayIngredients(recipes);
+    View.displayAppliances(recipes);
+    View.displayUstensils(recipes);
+}
+
 // écouter les évènement liés à l'input (barre de recherche)
 searchInput.addEventListener('input', () => {
     // nettoyer la valeur des espaces vide avant et après
@@ -21,13 +33,8 @@ searchInput.addEventListener('input', () => {
     if (searchValue === '') {
         const allRecipes = Search.filter(recipesSource, '', []);
         View.clearRecipes();
-        View.displayRecipes(allRecipes);
-        View.clearIngredients();
-        View.displayIngredients(allRecipes);
-        View.clearAppliances();
-        View.displayAppliances(allRecipes);
-        View.clearUstensiles();
-        View.displayUstensils(allRecipes);
+
+        updateRecipes(allRecipes, true);
     }
 
     if (searchValue.length >= 3) {
@@ -38,13 +45,7 @@ searchInput.addEventListener('input', () => {
             View.clearDisplayError();
 
             // Mettre à jour l'affichage des recettes filtrées
-            View.displayRecipes(filteredRecipes);
-            View.clearIngredients();
-            View.displayIngredients(filteredRecipes);
-            View.clearAppliances();
-            View.displayAppliances(filteredRecipes);
-            View.clearUstensiles();
-            View.displayUstensils(filteredRecipes);
+            updateRecipes(filteredRecipes, true);
         }
     } else {
         View.clearDisplayError();
@@ -59,42 +60,40 @@ searchInput.addEventListener('blur', () => {
     if (searchValue === '') {
         const allRecipes = Search.filter(recipesSource, '', []);
         View.clearRecipes();
-        View.displayRecipes(allRecipes);
-        View.clearIngredients();
-        View.displayIngredients(allRecipes);
-        View.clearAppliances();
-        View.displayAppliances(allRecipes);
-        View.clearUstensiles();
-        View.displayUstensils(allRecipes);
+        updateRecipes(allRecipes, true);
     }
 });
 
 function eventTag(event) {
     if (event.target.classList.contains('tag')) {
-        View.createTagFilter(event);
+        console.log("clic sur un tag");
+
         const selectedTag = event.target.textContent;
-        const filteredRecipes = Search.filter(recipesSource, selectedTag, []);
+        // const filteredRecipes = Search.filter(recipesSource, selectedTag, []);
+
+        const filteredRecipes = Search.addTagFilter(selectedTag);
+
         View.clearRecipes();
-        View.displayRecipes(filteredRecipes);
-        View.clearIngredients();
-        View.displayIngredients(filteredRecipes);
-        View.clearAppliances();
-        View.displayAppliances(filteredRecipes);
-        View.clearUstensiles();
-        View.displayUstensils(filteredRecipes);
+        updateRecipes(filteredRecipes, true);
+        View.createTagFilter(event);
     }
 }
+
 tagsIngredient.addEventListener('click', (event) => {
+    console.log("clic sur ingredient");
     eventTag(event);
 });
 tagsAppliance.addEventListener('click', (event) => {
+    console.log("clic sur appareil");
     eventTag(event);
 });
 tagsUstensil.addEventListener('click', (event) => {
+    console.log("clic sur ustensiles");
     eventTag(event);
 });
 
 export function updateFilteredRecipes() {
+    console.log("updateFilteredRecipes");
     const searchValue = searchInput.value.trim();
     const selectedTags = Array.from(document.querySelectorAll('.selected-tag')).map(tag => tag.textContent);
 
@@ -109,28 +108,20 @@ export function updateFilteredRecipes() {
     } else {
         View.clearDisplayError();
         // Mettre à jour l'affichage des recettes filtrées
-        View.displayRecipes(filteredRecipes);
+        View.createRecipes(filteredRecipes);
 
         const nbrRecipesElement = document.querySelector('#nbr-recipes');
         nbrRecipesElement.textContent = `${filteredRecipes.length} recette${filteredRecipes.length > 1 ? 's' : ''}`;
 
-        View.clearIngredients();
-        View.displayIngredients(filteredRecipes);
-        View.clearAppliances();
-        View.displayAppliances(filteredRecipes);
-        View.clearUstensiles();
-        View.displayUstensils(filteredRecipes);
+        updateRecipes(filteredRecipes, true);
     }
 }
 
 // Initialiser l'appli (pas de recherche ni de tag + afficher les recettes)
 function init() {
+    console.log("init");
     let recipesSearch = Search.filter(recipesSource, '', []);
 
-    View.displayRecipes(recipesSearch);
-    View.displayIngredients(recipesSearch);
-    View.displayAppliances(recipesSearch);
-    View.displayUstensils(recipesSearch);
-
+    updateRecipes(recipesSearch, false);
 }
 init();
