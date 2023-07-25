@@ -19,11 +19,11 @@ export function displayError(searchValue, usedTags) {
     if (!errorDiv) {
         const errorDiv = document.createElement('div');
         errorDiv.innerHTML = `<p id="error-container">Aucune recette ne correspond à la recherche "${searchValue} " ${usedTags} vous pouvez chercher «
-        tarte aux pommes », « poisson », etc...</p>`;
+        tarte aux pommes », « poisson », etc</p>`;
         document.body.appendChild(errorDiv);
     } else {
         errorDiv.innerHTML = `<p>Aucune recette ne correspond à la recherche "${searchValue} " ${usedTags} vous pouvez chercher «
-        tarte aux pommes », « poisson », etc...</p>`;
+        tarte aux pommes », « poisson », etc</p>`;
         document.body.appendChild(errorDiv);
     }
 }
@@ -331,7 +331,11 @@ export function displaySelectedTag(tag) {
     const deleteButton = document.createElement('button');
     deleteButton.classList.add('delete-tag');
     deleteButton.innerHTML = '&#10005;';
-    Index.removeTag(tag, deleteButton, selectedTagContainer, tagElement);
+    deleteButton.addEventListener('click', () => {
+        selectedTagContainer.removeChild(tagElement);
+        Index.removeTagFilter(tag);
+        Index.updateFilteredRecipes();
+    });
 
     // Ajouter la vignette du tag à la zone de la vignette sélectionnée
     selectedTagContainer.appendChild(tagElement);

@@ -22,7 +22,18 @@ export function addTagFilter(addedTag) {
     filterTagList[addedTag] = true;
 
     // retourner la liste filtrée
-    return Search.filter(recipesSource, valueOfSearch, Object.keys(filterTagList));
+    return getFilteredRecipes();
+}
+
+export function getFilteredRecipes() {
+    return Search.filter(recipesSource, getSearchValue(), getfilterTags());
+}
+
+function getSearchValue() {
+    return valueOfSearch;
+}
+function getfilterTags() {
+    return Object.keys(filterTagList);
 }
 
 // supprimer le tag de la liste des tags
@@ -30,15 +41,19 @@ export function removeTagFilter(tagToRemove) {
     // supprimer le tag de la liste des critères
     delete filterTagList[tagToRemove];
     // retourner la liste filtrée
-    return Search.filter(recipesSource, valueOfSearch, Object.keys(filterTagList));
+    return getFilteredRecipes();
 }
 
-export function removeTag(tag, deleteButton, selectedTagContainer, tagElement) {
-    deleteButton.addEventListener('click', () => {
-        selectedTagContainer.removeChild(tagElement);
-        updateFilteredRecipes();
-        removeTagFilter(tag);
-    });
+function clearSearch() {
+    // récupérer la chaine de caractère (input)
+    // vider la chaine de caractère
+    valueOfSearch = '';
+    // récupérer la liste des tags
+    // vider la liste des tags
+    filterTagList = {};
+    // refaire une recherche après avoir retiré les filtres
+    // retourner la liste des recettes non filtrée
+    return getFilteredRecipes();
 }
 
 function updateRecipes(recipes, clearIsNeed) {
@@ -66,24 +81,20 @@ searchInput.addEventListener('input', () => {
     View.clearRecipes();
 
     if (searchValue === '') {
-        const allRecipes = Search.filter(recipesSource, '', []);
+        const allRecipes = clearSearch();
         View.clearRecipes();
-
         updateRecipes(allRecipes, true);
     }
-
     if (searchValue.length >= 3) {
-
         if (filteredRecipes.length === 0) {
             View.displayError(searchValue, '');
         } else {
             View.clearDisplayError();
-
             // Mettre à jour l'affichage des recettes filtrées
             updateRecipes(filteredRecipes, true);
         }
     } else {
-        let recipesSearch = Search.filter(recipesSource, '', []);
+        let recipesSearch = clearSearch();
         updateRecipes(recipesSearch, false);
         View.clearDisplayError();
     }
@@ -132,10 +143,9 @@ tagsUstensil.addEventListener('click', (event) => {
 
 export function updateFilteredRecipes() {
     console.log("updateFilteredRecipes");
-    const searchValue = searchInput.value.trim();
-    const selectedTags = Array.from(document.querySelectorAll('.selected-tag')).map(tag => tag.textContent);
-
-    const filteredRecipes = Search.filter(recipesSource, searchValue, selectedTags);
+    const searchValue = getSearchValue();
+    const selectedTags = getfilterTags();
+    const filteredRecipes = getFilteredRecipes();
 
     // Vider le conteneur des recettes
     View.clearRecipes();
@@ -145,12 +155,10 @@ export function updateFilteredRecipes() {
         View.displayError(searchValue, usedTags);
     } else {
         View.clearDisplayError();
-        // Mettre à jour l'affichage des recettes filtrées
-        View.createRecipes(filteredRecipes);
 
         const nbrRecipesElement = document.querySelector('#nbr-recipes');
         nbrRecipesElement.textContent = `${filteredRecipes.length} recette${filteredRecipes.length > 1 ? 's' : ''}`;
-
+        // Mettre à jour l'affichage des recettes filtrées
         updateRecipes(filteredRecipes, true);
     }
 }
@@ -158,8 +166,7 @@ export function updateFilteredRecipes() {
 // Initialiser l'appli (pas de recherche ni de tag + afficher les recettes)
 function init() {
     console.log("init");
-    let recipesSearch = Search.filter(recipesSource, '', []);
-
+    let recipesSearch = clearSearch();
     updateRecipes(recipesSearch, false);
 }
 init();
