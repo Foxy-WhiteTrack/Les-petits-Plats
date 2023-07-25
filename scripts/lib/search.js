@@ -1,5 +1,3 @@
-import { recipes as recipesSource } from "../../datas/recipes.js";
-
 // prog fonctionnelle => utiliser les fonctions des tableaux
 
 // Filtrer les résutats de recette selon la recherche
@@ -33,25 +31,4 @@ export function filter(recipesParam, searchValue, tags) {
 
 
     return filteredRecipes;
-}
-
-let filterTagList = {};
-let valueOfSearch = '';
-
-// ajouter un tag à la liste des tags
-export function addTagFilter(addedTag) {
-
-    // ajouter le tag à la liste
-    filterTagList[addedTag] = true;
-
-    // retourner la liste filtrée
-    return filter(recipesSource, valueOfSearch, Object.keys(filterTagList));
-}
-
-// supprimer le tag de la liste des tags
-export function removeTagFilter(tagToRemove) {
-    // supprimer le tag de la liste des critères
-    delete filterTagList[tagToRemove];
-    // retourner la liste filtrée
-    return filter(recipesSource, valueOfSearch, Object.keys(filterTagList));
 }

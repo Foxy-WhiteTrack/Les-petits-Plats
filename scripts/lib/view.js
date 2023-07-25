@@ -152,9 +152,10 @@ export function displayIngredients(recipesParam) {
         // parcourir les ingrédients de chaque recette
         simpleArrIngredientsForOneRecipe.forEach(ingredientObj => {
             const nameOfIngredient = ingredientObj.ingredient;
-            ingredientsNamesArr[nameOfIngredient] = true;
+            if (!Index.isTagSelected(nameOfIngredient)) {
+                ingredientsNamesArr[nameOfIngredient] = true;
+            }
         })
-
     })
 
     const nbrRecipesElement = document.querySelector('#nbr-recipes');
