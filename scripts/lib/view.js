@@ -1,5 +1,4 @@
 import * as Index from "../index.js";
-import * as Search from "./search.js";
 
 // Selecteurs
 const blockFilters = document.querySelectorAll('.block-filters');
@@ -331,11 +330,7 @@ export function displaySelectedTag(tag) {
     const deleteButton = document.createElement('button');
     deleteButton.classList.add('delete-tag');
     deleteButton.innerHTML = '&#10005;';
-    deleteButton.addEventListener('click', () => {
-        selectedTagContainer.removeChild(tagElement);
-        Index.updateFilteredRecipes();
-        Search.removeTagFilter(tag);
-    });
+    Index.removeTag(tag, deleteButton, selectedTagContainer, tagElement);
 
     // Ajouter la vignette du tag à la zone de la vignette sélectionnée
     selectedTagContainer.appendChild(tagElement);

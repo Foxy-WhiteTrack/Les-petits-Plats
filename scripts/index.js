@@ -7,6 +7,14 @@ const tagsIngredient = document.querySelector('#tag-ingredients');
 const tagsAppliance = document.querySelector('#tag-appliances');
 const tagsUstensil = document.querySelector('#tag-ustensils');
 
+export function removeTag(tag, deleteButton, selectedTagContainer, tagElement) {
+    deleteButton.addEventListener('click', () => {
+        selectedTagContainer.removeChild(tagElement);
+        updateFilteredRecipes();
+        Search.removeTagFilter(tag);
+    });
+}
+
 function updateRecipes(recipes, clearIsNeed) {
     if (clearIsNeed) {
         View.clearIngredients();
@@ -25,7 +33,8 @@ searchInput.addEventListener('input', () => {
     const searchValue = searchInput.value.trim();
 
     // filtrer les recettes en fonctoin de la valeur de recherche (input)
-    const filteredRecipes = Search.filter(recipesSource, searchValue, []);
+    const filteredRecipes = Search.addTagFilter(searchValue);
+    // const filteredRecipes = Search.filter(recipesSource, searchValue, []);
 
     // Vider le conteneur des recettes
     View.clearRecipes();
@@ -58,7 +67,8 @@ searchInput.addEventListener('blur', () => {
 
     // Si la barre de recherche est vide, afficher toutes les recettes non filtrées
     if (searchValue === '') {
-        const allRecipes = Search.filter(recipesSource, '', []);
+        const allRecipes = Search.addTagFilter(searchValue);
+        // const allRecipes = Search.filter(recipesSource, '', []);
         View.clearRecipes();
         updateRecipes(allRecipes, true);
     }
