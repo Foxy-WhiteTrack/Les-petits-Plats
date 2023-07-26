@@ -87,6 +87,8 @@ searchInput.addEventListener('input', () => {
     }
     if (searchValue.length >= 3) {
         if (filteredRecipes.length === 0) {
+            console.log(filteredRecipes);
+            console.log('error_1');
             View.displayError(searchValue, '');
         } else {
             View.clearDisplayError();
@@ -139,6 +141,7 @@ export function updateFilteredRecipes() {
 
     if (filteredRecipes.length === 0) {
         const usedTags = selectedTags.join(', ');
+        console.log('error_2');
         View.displayError(searchValue, usedTags);
     } else {
         View.clearDisplayError();

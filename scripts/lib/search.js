@@ -12,7 +12,6 @@ export function filter(recipesParam, searchValue, tags) {
         const ingredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase());
         const appliance = recipe.appliance.toLowerCase();
         const ustensiles = recipe.ustensils.map(ustensil => ustensil.toLowerCase());
-        console.log(searchValueLC, ingredients);
         return (
             title.includes(searchValueLC) ||
             description.includes(searchValueLC) ||

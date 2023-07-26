@@ -14,7 +14,7 @@ tagCtn.forEach(element => {
 });
 
 export function displayError(searchValue, usedTags) {
-    console.log("displayError");
+    console.log("dispalyError");
     const errorDiv = document.querySelector('#error-container');
     if (!errorDiv) {
         const errorDiv = document.createElement('div');
@@ -223,11 +223,13 @@ export function displayAppliances(recipesParam) {
         appliances.forEach(appliance => {
             const formattedName = appliance.charAt(0).toUpperCase() + appliance.substring(1).toLowerCase();
 
+            const selectedTagContainer = document.querySelector('#selected-tags');
+            const selectedTags = Array.from(selectedTagContainer.querySelectorAll('.selected-tag'));
+            const tagAlreadySelected = selectedTags.some(tag => tag.textContent === formattedName);
 
-            if (!Index.isTagSelected(formattedName)) {
+            if (!tagAlreadySelected) {
                 appliancesHTML += `<li class="tag">${formattedName}</li>`;
             }
-
         });
 
         // Vérifier si des appareils ont été ajoutés et retourner l'HTML approprié
@@ -273,10 +275,13 @@ export function displayUstensils(recipesParam) {
         ustensils.forEach(ustensil => {
             const formattedName = ustensil.charAt(0).toUpperCase() + ustensil.substring(1).toLowerCase();
 
-            if (!Index.isTagSelected(formattedName)) {
+            const selectedTagContainer = document.querySelector('#selected-tags');
+            const selectedTags = Array.from(selectedTagContainer.querySelectorAll('.selected-tag'));
+            const tagAlreadySelected = selectedTags.some(tag => tag.textContent === formattedName);
+
+            if (!tagAlreadySelected) {
                 ustensilsHTML += `<li class="tag">${formattedName}</li>`;
             }
-
 
         });
 
