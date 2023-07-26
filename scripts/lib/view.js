@@ -169,6 +169,7 @@ export function displayIngredients(recipesParam) {
     function makeIngredientHTML(ingredients) {
         console.log("affichage ingrédients dans selectBox");
         let ingredientsHTML = '';
+        const addedIngredients = [];
 
         // Parcourir les ingrédients et les ajouter à l'HTML
         ingredients.forEach(ingredient => {
@@ -177,12 +178,13 @@ export function displayIngredients(recipesParam) {
             const selectedTagContainer = document.querySelector('#selected-tags');
             const selectedTags = Array.from(selectedTagContainer.querySelectorAll('.selected-tag'));
             const tagAlreadySelected = selectedTags.some(tag => tag.textContent === formattedName);
+            const isDuplicate = addedIngredients.includes(formattedName);
+            console.log(isDuplicate);
 
-            if (!tagAlreadySelected) {
+            if (!tagAlreadySelected && !isDuplicate) {
                 ingredientsHTML += `<li class="tag">${formattedName}</li>`;
+                addedIngredients.push(formattedName);
             }
-
-
         });
 
         // Vérifier si des ingrédients ont été ajoutés et retourner l'HTML approprié
@@ -219,14 +221,17 @@ export function displayAppliances(recipesParam) {
     function makeApplianceHTML(appliances) {
         console.log("affichage appareils dans selectBox");
         let appliancesHTML = '';
+        const addedAppliances = [];
 
         // Parcourir les appareils et les ajouter à l'HTML
         appliances.forEach(appliance => {
             const formattedName = appliance.charAt(0).toUpperCase() + appliance.substring(1).toLowerCase();
 
+            const isDuplicate = addedAppliances.includes(formattedName);
 
-            if (!Index.isTagSelected(formattedName)) {
+            if (!Index.isTagSelected(formattedName) && !isDuplicate) {
                 appliancesHTML += `<li class="tag">${formattedName}</li>`;
+                addedAppliances.push(formattedName);
             }
 
         });
@@ -269,13 +274,17 @@ export function displayUstensils(recipesParam) {
     function makeUstensilsHTML(ustensils) {
         console.log("affichage ustensiles dans selectBox");
         let ustensilsHTML = '';
+        const addedUstensils = [];
 
         // Parcourir les ustensiles et les ajouter à l'HTML
         ustensils.forEach(ustensil => {
             const formattedName = ustensil.charAt(0).toUpperCase() + ustensil.substring(1).toLowerCase();
 
-            if (!Index.isTagSelected(formattedName)) {
+            const isDuplicate = addedUstensils.includes(formattedName);
+
+            if (!Index.isTagSelected(formattedName) && !isDuplicate) {
                 ustensilsHTML += `<li class="tag">${formattedName}</li>`;
+                addedUstensils.push(formattedName);
             }
 
 

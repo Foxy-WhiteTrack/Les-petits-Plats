@@ -14,7 +14,7 @@ tagCtn.forEach(element => {
 });
 
 export function displayError(searchValue, usedTags) {
-    console.log("dispalyError");
+    console.log("displayError");
     const errorDiv = document.querySelector('#error-container');
     if (!errorDiv) {
         const errorDiv = document.createElement('div');
@@ -33,6 +33,7 @@ export function clearDisplayError() {
     const errorDiv = document.querySelector('#error-container');
     if (errorDiv) {
         errorDiv.innerHTML = '';
+        errorDiv.style.border = 'none';
     }
 }
 
@@ -168,6 +169,7 @@ export function displayIngredients(recipesParam) {
     function makeIngredientHTML(ingredients) {
         console.log("affichage ingrédients dans selectBox");
         let ingredientsHTML = '';
+        const addedIngredients = [];
 
         // Parcourir les ingrédients et les ajouter à l'HTML
         ingredients.forEach(ingredient => {
@@ -176,12 +178,13 @@ export function displayIngredients(recipesParam) {
             const selectedTagContainer = document.querySelector('#selected-tags');
             const selectedTags = Array.from(selectedTagContainer.querySelectorAll('.selected-tag'));
             const tagAlreadySelected = selectedTags.some(tag => tag.textContent === formattedName);
+            const isDuplicate = addedIngredients.includes(formattedName);
+            console.log(isDuplicate);
 
-            if (!tagAlreadySelected) {
+            if (!tagAlreadySelected && !isDuplicate) {
                 ingredientsHTML += `<li class="tag">${formattedName}</li>`;
+                addedIngredients.push(formattedName);
             }
-
-
         });
 
         // Vérifier si des ingrédients ont été ajoutés et retourner l'HTML approprié
@@ -223,13 +226,11 @@ export function displayAppliances(recipesParam) {
         appliances.forEach(appliance => {
             const formattedName = appliance.charAt(0).toUpperCase() + appliance.substring(1).toLowerCase();
 
-            const selectedTagContainer = document.querySelector('#selected-tags');
-            const selectedTags = Array.from(selectedTagContainer.querySelectorAll('.selected-tag'));
-            const tagAlreadySelected = selectedTags.some(tag => tag.textContent === formattedName);
 
-            if (!tagAlreadySelected) {
+            if (!Index.isTagSelected(formattedName)) {
                 appliancesHTML += `<li class="tag">${formattedName}</li>`;
             }
+
         });
 
         // Vérifier si des appareils ont été ajoutés et retourner l'HTML approprié
@@ -275,13 +276,10 @@ export function displayUstensils(recipesParam) {
         ustensils.forEach(ustensil => {
             const formattedName = ustensil.charAt(0).toUpperCase() + ustensil.substring(1).toLowerCase();
 
-            const selectedTagContainer = document.querySelector('#selected-tags');
-            const selectedTags = Array.from(selectedTagContainer.querySelectorAll('.selected-tag'));
-            const tagAlreadySelected = selectedTags.some(tag => tag.textContent === formattedName);
-
-            if (!tagAlreadySelected) {
+            if (!Index.isTagSelected(formattedName)) {
                 ustensilsHTML += `<li class="tag">${formattedName}</li>`;
             }
+
 
         });
 
