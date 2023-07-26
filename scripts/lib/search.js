@@ -6,14 +6,19 @@ export function filter(recipesParam, searchValue, tags) {
     let filteredRecipes = recipesParam;
 
     const filterOnValue = function (recipe) {
+        let searchValueLC = searchValue.toLowerCase();
         const title = recipe.name.toLowerCase();
         const description = recipe.description.toLowerCase();
         const ingredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase());
-
+        const appliance = recipe.appliance.toLowerCase();
+        const ustensiles = recipe.ustensils.map(ustensil => ustensil.toLowerCase());
+        console.log(searchValueLC, ingredients);
         return (
-            title.includes(searchValue.toLowerCase()) ||
-            description.includes(searchValue.toLowerCase()) ||
-            ingredients.some(ingredient => ingredient.includes(searchValue.toLowerCase()))
+            title.includes(searchValueLC) ||
+            description.includes(searchValueLC) ||
+            ingredients.some(ingredient => ingredient.includes(searchValueLC)) ||
+            appliance.includes(searchValueLC) ||
+            ustensiles.some(ustensile => ustensile.includes(searchValueLC))
         );
     }
 

@@ -205,11 +205,10 @@ export function displayAppliances(recipesParam) {
         if (!Index.isTagSelected(appliance)) {
             appliancesNamesArr[appliance] = true;
         }
+
+        // Ajouter l'appareil au tableau des noms d'appareils
+        appliancesNamesArr[appliance] = true;
     });
-
-    const nbrRecipesElement = document.querySelector('#nbr-recipes');
-    nbrRecipesElement.textContent = `${recipesParam.length} recette${recipesParam.length > 1 ? 's' : ''}`;
-
 
     // Convertir le tableau des noms d'appareils en un tableau trié
     const sortedAppliances = sortTags(Object.keys(appliancesNamesArr));
@@ -222,14 +221,7 @@ export function displayAppliances(recipesParam) {
         // Parcourir les appareils et les ajouter à l'HTML
         appliances.forEach(appliance => {
             const formattedName = appliance.charAt(0).toUpperCase() + appliance.substring(1).toLowerCase();
-
-            const selectedTagContainer = document.querySelector('#selected-tags');
-            const selectedTags = Array.from(selectedTagContainer.querySelectorAll('.selected-tag'));
-            const tagAlreadySelected = selectedTags.some(tag => tag.textContent === formattedName);
-
-            if (!tagAlreadySelected) {
-                appliancesHTML += `<li class="tag">${formattedName}</li>`;
-            }
+            appliancesHTML += `<li class="tag">${formattedName}</li>`;
         });
 
         // Vérifier si des appareils ont été ajoutés et retourner l'HTML approprié
@@ -259,10 +251,6 @@ export function displayUstensils(recipesParam) {
         });
     });
 
-    const nbrRecipesElement = document.querySelector('#nbr-recipes');
-    nbrRecipesElement.textContent = `${recipesParam.length} recette${recipesParam.length > 1 ? 's' : ''}`;
-
-
     // Convertir le tableau des noms d'ustensiles en un tableau trié
     const sortedUstensils = sortTags(Object.keys(ustensilsNamesArr));
 
@@ -274,15 +262,7 @@ export function displayUstensils(recipesParam) {
         // Parcourir les ustensiles et les ajouter à l'HTML
         ustensils.forEach(ustensil => {
             const formattedName = ustensil.charAt(0).toUpperCase() + ustensil.substring(1).toLowerCase();
-
-            const selectedTagContainer = document.querySelector('#selected-tags');
-            const selectedTags = Array.from(selectedTagContainer.querySelectorAll('.selected-tag'));
-            const tagAlreadySelected = selectedTags.some(tag => tag.textContent === formattedName);
-
-            if (!tagAlreadySelected) {
-                ustensilsHTML += `<li class="tag">${formattedName}</li>`;
-            }
-
+            ustensilsHTML += `<li class="tag">${formattedName}</li>`;
         });
 
         // Vérifier si des ustensiles ont été ajoutés et retourner l'HTML approprié

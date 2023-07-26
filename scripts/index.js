@@ -100,19 +100,6 @@ searchInput.addEventListener('input', () => {
     }
 });
 
-//réinitialiser les résultats lorsque la barre de recherche est vidée
-searchInput.addEventListener('blur', () => {
-    const searchValue = searchInput.value.trim();
-
-    // Si la barre de recherche est vide, afficher toutes les recettes non filtrées
-    if (searchValue === '') {
-        const allRecipes = addTagFilter(searchValue);
-        // const allRecipes = Search.filter(recipesSource, '', []);
-        View.clearRecipes();
-        updateRecipes(allRecipes, true);
-    }
-});
-
 function eventTag(event) {
     if (event.target.classList.contains('tag')) {
         console.log("clic sur un tag");

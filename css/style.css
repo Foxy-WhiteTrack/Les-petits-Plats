@@ -119,7 +119,7 @@ main {
     box-shadow: 5px 5px 15px -3px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     position: relative;
-    padding: 5px;
+    padding: 5px 0;
     width: fit-content;
     display: flex;
     flex-direction: column;
@@ -177,7 +177,7 @@ a {
     padding: 25px 0;
     margin: 50px 0;
     position: absolute;
-    top: 45rem;
+    top: 49rem;
     left: 9%;
     right: 9%;
 }
@@ -357,4 +357,12 @@ a {
     display: flex;
     justify-content: space-around;
     margin: 20px auto;
+}
+
+@media only screen and (min-width: 1600px) {
+    #recipes-ctn {
+        left: 17.5%;
+        right: 17.5%;
+        top: 49rem;
+    }
 }
