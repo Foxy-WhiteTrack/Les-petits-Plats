@@ -33,6 +33,7 @@ export function clearDisplayError() {
     const errorDiv = document.querySelector('#error-container');
     if (errorDiv) {
         errorDiv.innerHTML = '';
+        errorDiv.style.border = 'none';
     }
 }
 
