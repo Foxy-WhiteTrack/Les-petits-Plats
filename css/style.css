@@ -120,9 +120,11 @@ main {
     cursor: pointer;
     position: relative;
     padding: 5px;
+    width: fit-content;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    z-index: 2;
 }
 
 .filter-item {
@@ -155,7 +157,6 @@ main {
     width: 100%;
 }
 
-.tag-ctn {}
 
 .filter-ctn i {
     position: absolute;
@@ -175,6 +176,10 @@ a {
 #recipes-ctn {
     padding: 25px 0;
     margin: 50px 0;
+    position: absolute;
+    top: 45rem;
+    left: 9%;
+    right: 9%;
 }
 
 #recipes-ctn img {
@@ -301,16 +306,22 @@ a {
     margin-right: 25%;
 }
 
+.tag-ctn {
+    display: block;
+    z-index: 2;
+}
+
 .tag-ctn ul {
     margin-top: 10px;
 }
 
 .tag {
     padding: 10px;
+    font-family: 'Manrope';
 }
 
 .tag:hover {
-    background-color: aqua;
+    background-color: #FFD15B;
 }
 
 #selected-tags {
