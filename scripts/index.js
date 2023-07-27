@@ -10,6 +10,8 @@ const tagsUstensil = document.querySelector('#tag-ustensils');
 let filterTagList = {};
 let valueOfSearch = '';
 
+//model - datastore => api (getters et setters) 
+
 // savoir si le tag est deja sélectionné
 export function isTagSelected(tagToCheck) {
     return filterTagList[tagToCheck] ? true : false;
@@ -95,7 +97,7 @@ searchInput.addEventListener('input', () => {
         View.clearDisplayError();
         // résultats non filtrés
         let recipesSearch = setSearchValue('');
-        updateRecipes(recipesSearch, false);
+        updateRecipes(recipesSearch, true);
     } else {
         // déterminer si y'a des résultats
         let recipesSearch = setSearchValue(searchValue);
@@ -104,7 +106,7 @@ searchInput.addEventListener('input', () => {
             // supprimer l'erreur
             View.clearDisplayError();
             // affiche les résultats filtrés
-            updateRecipes(recipesSearch, false);
+            updateRecipes(recipesSearch, true);
             //soit y'en a pas
         } else {
             // afficher l'erreur

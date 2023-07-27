@@ -1,5 +1,7 @@
 // prog fonctionnelle => utiliser les fonctions des tableaux
 
+// traitement des données => controleur
+
 // Filtrer les résutats de recette selon la recherche
 export function filter(recipesParam, searchValue, tags) {
     console.log("filtrer les résultats");

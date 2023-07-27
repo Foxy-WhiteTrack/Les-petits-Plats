@@ -1,5 +1,7 @@
 import * as Index from "../index.js";
 
+// Vue - affichage
+
 // Selecteurs
 const blockFilters = document.querySelectorAll('.block-filters');
 const filterCtn = document.querySelectorAll('.filter-ctn');
@@ -330,12 +332,18 @@ ustensilsSearchInput.addEventListener('input', () => {
     updateDisplayedTags('ustensils', searchValue);
 });
 
+// filtrer et afficher les tags correspondants 
 function updateDisplayedTags(tagType, searchValue) {
+    // récupérer les tags correspondant au type de tags voulu
     const tagSection = document.querySelector(`#tag-${tagType}`);
     const allTags = tagSection.querySelectorAll('.tag');
 
+    // parcourir tous les tags du type voulu
     allTags.forEach(tag => {
         const tagName = tag.textContent.toLowerCase();
+        // vérifier le ce que l'on tape est inclu dans le nom du tag
+        // si oui on l'affiche
+        // sinon on ne l'affiche pas
         if (tagName.includes(searchValue)) {
             tag.style.display = 'block';
         } else {
