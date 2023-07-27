@@ -179,7 +179,6 @@ export function displayIngredients(recipesParam) {
             const selectedTags = Array.from(selectedTagContainer.querySelectorAll('.selected-tag'));
             const tagAlreadySelected = selectedTags.some(tag => tag.textContent === formattedName);
             const isDuplicate = addedIngredients.includes(formattedName);
-            console.log(isDuplicate);
 
             if (!tagAlreadySelected && !isDuplicate) {
                 ingredientsHTML += `<li class="tag">${formattedName}</li>`;

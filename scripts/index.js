@@ -10,6 +10,7 @@ const tagsUstensil = document.querySelector('#tag-ustensils');
 let filterTagList = {};
 let valueOfSearch = '';
 
+// savoir si le tag est deja sélectionné
 export function isTagSelected(tagToCheck) {
     return filterTagList[tagToCheck] ? true : false;
     // return !!filterTagList[tagToCheck]; // la même chose que la ligne du dessus, utilisant les notNot
@@ -24,14 +25,20 @@ export function addTagFilter(addedTag) {
     // retourner la liste filtrée
     return getFilteredRecipes();
 }
-
+// Obtenir les recettes filtrées selon la recherche et les tags
 export function getFilteredRecipes() {
     return Search.filter(recipesSource, getSearchValue(), getfilterTags());
 }
+function setSearchValue(searchValue) {
+    valueOfSearch = searchValue;
 
+    return getFilteredRecipes();
+}
+// récupérer la recherche active
 function getSearchValue() {
     return valueOfSearch;
 }
+// récupérer les Tags actifs
 function getfilterTags() {
     return Object.keys(filterTagList);
 }
@@ -51,11 +58,16 @@ function clearSearch() {
     // récupérer la liste des tags
     // vider la liste des tags
     filterTagList = {};
+    // vider l'affichage des tags dans l'interface utilisateur
+    View.clearIngredients();
+    View.clearAppliances();
+    View.clearUstensiles();
     // refaire une recherche après avoir retiré les filtres
     // retourner la liste des recettes non filtrée
     return getFilteredRecipes();
 }
 
+// réafficher les recettes, ingrédients, appareils et ustensiles
 function updateRecipes(recipes, clearIsNeed) {
     if (clearIsNeed) {
         View.clearIngredients();
@@ -68,40 +80,71 @@ function updateRecipes(recipes, clearIsNeed) {
     View.displayUstensils(recipes);
 }
 
+
+
 // écouter les évènement liés à l'input (barre de recherche)
 searchInput.addEventListener('input', () => {
     // nettoyer la valeur des espaces vide avant et après
     const searchValue = searchInput.value.trim();
 
     // filtrer les recettes en fonctoin de la valeur de recherche (input)
-    const filteredRecipes = addTagFilter(searchValue);
+    // const filteredRecipes = addTagFilter(searchValue);
     // const filteredRecipes = Search.filter(recipesSource, searchValue, []);
 
     // Vider le conteneur des recettes
     View.clearRecipes();
 
-    if (searchValue === '') {
-        const allRecipes = clearSearch();
-        View.clearRecipes();
-        updateRecipes(allRecipes, true);
-    }
-    if (searchValue.length >= 3) {
-        if (filteredRecipes.length === 0) {
-            console.log(filteredRecipes);
-            console.log('error_1');
-            View.displayError(searchValue, '');
-        } else {
-            View.clearDisplayError();
-            // Mettre à jour l'affichage des recettes filtrées
-            updateRecipes(filteredRecipes, true);
-        }
-    } else {
-        let recipesSearch = clearSearch();
-        updateRecipes(recipesSearch, false);
+    // if (searchValue === ' ') {
+    //     const allRecipes = clearSearch();
+    //     View.clearRecipes();
+    //     updateRecipes(allRecipes, true);
+    // }
+    // if (searchValue.length >= 3) {
+    //     if (filteredRecipes.length === 0) {
+    //         console.log(filteredRecipes);
+    //         console.log('error_1');
+    //         View.displayError(searchValue, '');
+    //     } else {
+    //         View.clearDisplayError();
+    //         // Mettre à jour l'affichage des recettes filtrées
+    //         updateRecipes(filteredRecipes, true);
+    //     }
+    // } else {
+    //     let recipesSearch = clearSearch();
+    //     updateRecipes(recipesSearch, false);
+    //     View.clearDisplayError();
+    // }
+
+    // l'utilisateur tape 3 caractères ou plus 
+    // l'utilisateur tape moins de 3 caractères
+    // on trouve un résultat
+    // on ne trouve pas de résultat
+
+    if (searchValue.length < 3) {
+        // retirer les erreur
         View.clearDisplayError();
+        // résultats non filtrés
+        updateRecipes(recipesSource, false);
+    } else {
+        // déterminer si y'a des résultats
+        let recipesSearch = setSearchValue(searchValue);
+        // soit y'a des résultats
+        if (recipesSearch.length > 0) {
+            // supprimer l'erreur
+            View.clearDisplayError();
+            // affiche les résultats filtrés
+            updateRecipes(recipesSearch, false);
+            //soit y'en a pas
+        } else {
+            // afficher l'erreur
+            View.displayError(searchValue, getfilterTags().join(', '));
+            // supprimer l'affichage résultat
+        }
+
     }
 });
 
+// gérer les evenements par tag
 function eventTag(event) {
     if (event.target.classList.contains('tag')) {
         console.log("clic sur un tag");
@@ -117,19 +160,22 @@ function eventTag(event) {
     }
 }
 
+// évouteur d'event sur ingrédient
 tagsIngredient.addEventListener('click', (event) => {
     console.log("clic sur ingredient");
     eventTag(event);
 });
+// évouteur d'event sur appareil
 tagsAppliance.addEventListener('click', (event) => {
     console.log("clic sur appareil");
     eventTag(event);
-});
+})// évouteur d'event sur ustensil
 tagsUstensil.addEventListener('click', (event) => {
     console.log("clic sur ustensiles");
     eventTag(event);
 });
 
+// mettre à jour les recettes filtrées
 export function updateFilteredRecipes() {
     console.log("updateFilteredRecipes");
     const searchValue = getSearchValue();
