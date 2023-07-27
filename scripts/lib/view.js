@@ -191,6 +191,8 @@ export function displayIngredients(recipesParam) {
     }
     // Ajouter l'HTML des ingrédients dans la section appropriée du DOM
     ingredientSection.innerHTML += makeIngredientHTML(simpleArrIngredientsForAllRecipes);
+
+    updateDisplayedTags('ingredients', '');
 }
 
 // Afficher les appareils dans la selectBox
@@ -241,6 +243,10 @@ export function displayAppliances(recipesParam) {
 
     // Ajouter l'HTML des appareils dans la section appropriée du DOM
     applianceSection.innerHTML += makeApplianceHTML(sortedAppliances);
+
+    updateDisplayedTags('appliances', '');
+
+    updateDisplayedTags('ustensils', '');
 }
 
 // Afficher les ustensiles dans la selectBox
@@ -297,6 +303,46 @@ export function displayUstensils(recipesParam) {
     ustensilsSection.innerHTML += makeUstensilsHTML(sortedUstensils);
 }
 
+// Ajouter un écouteur d'événement à la barre de recherche des ingrédients
+const ingredientsSearchInput = document.querySelector('#tag-ingredients-search');
+ingredientsSearchInput.addEventListener('input', () => {
+    // Récupérer la valeur de recherche pour les ingrédients
+    const searchValue = ingredientsSearchInput.value.trim().toLowerCase();
+    // Mettre à jour les ingrédients affichés
+    updateDisplayedTags('ingredients', searchValue);
+});
+
+// Ajouter un écouteur d'événement à la barre de recherche des appareils
+const appliancesSearchInput = document.querySelector('#tag-appliances-search');
+appliancesSearchInput.addEventListener('input', () => {
+    // Récupérer la valeur de recherche pour les appareils
+    const searchValue = appliancesSearchInput.value.trim().toLowerCase();
+    // Mettre à jour les appareils affichés
+    updateDisplayedTags('appliances', searchValue);
+});
+
+// Ajouter un écouteur d'événement à la barre de recherche des ustensiles
+const ustensilsSearchInput = document.querySelector('#tag-ustensils-search');
+ustensilsSearchInput.addEventListener('input', () => {
+    // Récupérer la valeur de recherche pour les ustensiles
+    const searchValue = ustensilsSearchInput.value.trim().toLowerCase();
+    // Mettre à jour les ustensiles affichés
+    updateDisplayedTags('ustensils', searchValue);
+});
+
+function updateDisplayedTags(tagType, searchValue) {
+    const tagSection = document.querySelector(`#tag-${tagType}`);
+    const allTags = tagSection.querySelectorAll('.tag');
+
+    allTags.forEach(tag => {
+        const tagName = tag.textContent.toLowerCase();
+        if (tagName.includes(searchValue)) {
+            tag.style.display = 'block';
+        } else {
+            tag.style.display = 'none';
+        }
+    });
+}
 
 // Vider le conteneur des recettes
 export function clearRecipes() {
@@ -345,6 +391,10 @@ export function createTagFilter(event) {
     const selectedTag = event.target.textContent;
     console.log('Tag sélectionné :', selectedTag);
     displaySelectedTag(selectedTag);
+
+    updateDisplayedTags('ingredients', '');
+    updateDisplayedTags('appliances', '');
+    updateDisplayedTags('ustensils', '');
 }
 
 // créer la vignette des tags sélectionnés

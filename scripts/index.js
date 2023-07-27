@@ -87,44 +87,15 @@ searchInput.addEventListener('input', () => {
     // nettoyer la valeur des espaces vide avant et après
     const searchValue = searchInput.value.trim();
 
-    // filtrer les recettes en fonctoin de la valeur de recherche (input)
-    // const filteredRecipes = addTagFilter(searchValue);
-    // const filteredRecipes = Search.filter(recipesSource, searchValue, []);
-
     // Vider le conteneur des recettes
     View.clearRecipes();
-
-    // if (searchValue === ' ') {
-    //     const allRecipes = clearSearch();
-    //     View.clearRecipes();
-    //     updateRecipes(allRecipes, true);
-    // }
-    // if (searchValue.length >= 3) {
-    //     if (filteredRecipes.length === 0) {
-    //         console.log(filteredRecipes);
-    //         console.log('error_1');
-    //         View.displayError(searchValue, '');
-    //     } else {
-    //         View.clearDisplayError();
-    //         // Mettre à jour l'affichage des recettes filtrées
-    //         updateRecipes(filteredRecipes, true);
-    //     }
-    // } else {
-    //     let recipesSearch = clearSearch();
-    //     updateRecipes(recipesSearch, false);
-    //     View.clearDisplayError();
-    // }
-
-    // l'utilisateur tape 3 caractères ou plus 
-    // l'utilisateur tape moins de 3 caractères
-    // on trouve un résultat
-    // on ne trouve pas de résultat
 
     if (searchValue.length < 3) {
         // retirer les erreur
         View.clearDisplayError();
         // résultats non filtrés
-        updateRecipes(recipesSource, false);
+        let recipesSearch = setSearchValue('');
+        updateRecipes(recipesSearch, false);
     } else {
         // déterminer si y'a des résultats
         let recipesSearch = setSearchValue(searchValue);
@@ -138,7 +109,6 @@ searchInput.addEventListener('input', () => {
         } else {
             // afficher l'erreur
             View.displayError(searchValue, getfilterTags().join(', '));
-            // supprimer l'affichage résultat
         }
 
     }
@@ -160,16 +130,17 @@ function eventTag(event) {
     }
 }
 
-// évouteur d'event sur ingrédient
+// écouteur d'event sur ingrédient
 tagsIngredient.addEventListener('click', (event) => {
     console.log("clic sur ingredient");
     eventTag(event);
 });
-// évouteur d'event sur appareil
+// écouteur d'event sur appareil
 tagsAppliance.addEventListener('click', (event) => {
     console.log("clic sur appareil");
     eventTag(event);
-})// évouteur d'event sur ustensil
+})
+// écouteur d'event sur ustensil
 tagsUstensil.addEventListener('click', (event) => {
     console.log("clic sur ustensiles");
     eventTag(event);
