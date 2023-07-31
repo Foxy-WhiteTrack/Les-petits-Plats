@@ -1,5 +1,5 @@
 import * as View from "./lib/view.js";
-import * as Search from "./lib/search.js";
+import * as Search from "./lib/search2.js";
 import { recipes as recipesSource } from "../datas/recipes.js";
 
 const searchInput = document.querySelector('#search-input');
@@ -10,7 +10,7 @@ const tagsUstensil = document.querySelector('#tag-ustensils');
 let filterTagList = {};
 let valueOfSearch = '';
 
-//model - datastore => api (getters et setters) 
+// model - datastore => api (getters et setters) 
 
 // savoir si le tag est deja sélectionné
 export function isTagSelected(tagToCheck) {
