@@ -1,48 +1,86 @@
-// traitement des données => controleur
-
 // Filtrer les résultats de recette selon la recherche
 export function filter(recipesParam, searchValue, tags) {
     console.log("filtrer les résultats");
-    const filteredRecipes = [];
+    let filteredRecipes = recipesParam;
 
-    const searchValueLC = searchValue.toLowerCase();
-
-    for (const recipe of recipesParam) {
+    // Créer une fonction pour filtrer les recettes en fonction de la valeur de recherche
+    function filterOnValue(recipe) {
+        const searchValueLC = searchValue.toLowerCase();
         const title = recipe.name.toLowerCase();
         const description = recipe.description.toLowerCase();
-        const ingredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase());
-        const appliance = recipe.appliance.toLowerCase();
-        const ustensiles = recipe.ustensils.map(ustensil => ustensil.toLowerCase());
 
-        if (
-            title.includes(searchValueLC) ||
-            description.includes(searchValueLC) ||
-            ingredients.some(ingredient => ingredient.includes(searchValueLC)) ||
-            appliance.includes(searchValueLC) ||
-            ustensiles.some(ustensile => ustensile.includes(searchValueLC))
-        ) {
-            filteredRecipes.push(recipe);
+        // Utiliser une boucle pour créer un nouveau tableau des ingrédients en minuscules
+        const ingredients = [];
+        for (const ingredientObj of recipe.ingredients) {
+            ingredients.push(ingredientObj.ingredient.toLowerCase());
         }
-    }
 
-    // récupérer la liste des tags 
-    // Pour chacun des tags on va vérifier si le tag est inclus dans le contenu des recettes
-    // Si une des recettes contient le tag alors on retourne une nouvelle liste de recettes filtrées
-    for (const tag of tags) {
-        const tagLC = tag.toLowerCase();
-        for (const recipe of recipesParam) {
-            const ingredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase());
-            const appliance = recipe.appliance.toLowerCase();
-            const ustensiles = recipe.ustensils.map(ustensil => ustensil.toLowerCase());
+        const appliance = recipe.appliance.toLowerCase();
 
-            if (
-                ingredients.includes(tagLC) ||
-                appliance.includes(tagLC) ||
-                ustensiles.includes(tagLC)
-            ) {
-                filteredRecipes.push(recipe);
+        // Utiliser une boucle pour créer un nouveau tableau des ustensiles en minuscules
+        const ustensils = [];
+        for (const ustensil of recipe.ustensils) {
+            ustensils.push(ustensil.toLowerCase());
+        }
+
+        // Utiliser une boucle pour vérifier si l'un des ingrédients inclut la valeur de recherche
+        let isIngredientIncluded = false;
+        for (const ingredient of ingredients) {
+            if (ingredient.includes(searchValueLC)) {
+                isIngredientIncluded = true;
+                break;
             }
         }
+
+        return (
+            title.includes(searchValueLC) ||
+            description.includes(searchValueLC) ||
+            isIngredientIncluded ||
+            appliance.includes(searchValueLC) ||
+            ustensils.includes(searchValueLC)
+        );
+    }
+
+    if (searchValue.length >= 3) {
+        // Filtre initial en fonction de la valeur de recherche
+        filteredRecipes = filteredRecipes.filter(filterOnValue);
+    }
+
+    // Filtrer en fonction des tags
+    for (const tag of tags) {
+        const tagLC = tag.toLowerCase();
+
+        // Filtrer les recettes en fonction de chaque tag
+        filteredRecipes = filteredRecipes.filter(recipe => {
+            // Utiliser une boucle pour créer un nouveau tableau des ingrédients en minuscules
+            const ingredients = [];
+            for (const ingredientObj of recipe.ingredients) {
+                ingredients.push(ingredientObj.ingredient.toLowerCase());
+            }
+
+            const appliance = recipe.appliance.toLowerCase();
+
+            // Utiliser une boucle pour créer un nouveau tableau des ustensiles en minuscules
+            const ustensils = [];
+            for (const ustensil of recipe.ustensils) {
+                ustensils.push(ustensil.toLowerCase());
+            }
+
+            // Utiliser une boucle pour vérifier si l'un des ingrédients inclut la valeur de recherche
+            let isIngredientIncluded = false;
+            for (const ingredient of ingredients) {
+                if (ingredient.includes(tagLC)) {
+                    isIngredientIncluded = true;
+                    break;
+                }
+            }
+
+            return (
+                isIngredientIncluded ||
+                appliance.includes(tagLC) ||
+                ustensils.includes(tagLC)
+            );
+        });
     }
 
     return filteredRecipes;
