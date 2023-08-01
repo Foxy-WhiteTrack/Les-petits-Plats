@@ -194,7 +194,8 @@ export function displayIngredients(recipesParam) {
     // Ajouter l'HTML des ingrédients dans la section appropriée du DOM
     ingredientSection.innerHTML += makeIngredientHTML(simpleArrIngredientsForAllRecipes);
 
-    updateDisplayedTags('ingredients', '');
+    // updateDisplayedTags('ingredients', '');
+    updateIngredientSearch();
 }
 
 // Afficher les appareils dans la selectBox
@@ -246,9 +247,8 @@ export function displayAppliances(recipesParam) {
     // Ajouter l'HTML des appareils dans la section appropriée du DOM
     applianceSection.innerHTML += makeApplianceHTML(sortedAppliances);
 
-    updateDisplayedTags('appliances', '');
-
-    updateDisplayedTags('ustensils', '');
+    // updateDisplayedTags('appliances', '');
+    updateApplianceSearch();
 }
 
 // Afficher les ustensiles dans la selectBox
@@ -303,34 +303,42 @@ export function displayUstensils(recipesParam) {
 
     // Ajouter l'HTML des ustensiles dans la section appropriée du DOM
     ustensilsSection.innerHTML += makeUstensilsHTML(sortedUstensils);
+
+    updateUstensilSearch();
 }
 
 // Ajouter un écouteur d'événement à la barre de recherche des ingrédients
 const ingredientsSearchInput = document.querySelector('#tag-ingredients-search');
-ingredientsSearchInput.addEventListener('input', () => {
+ingredientsSearchInput.addEventListener('input', updateIngredientSearch);
+
+function updateIngredientSearch() {
     // Récupérer la valeur de recherche pour les ingrédients
     const searchValue = ingredientsSearchInput.value.trim().toLowerCase();
     // Mettre à jour les ingrédients affichés
     updateDisplayedTags('ingredients', searchValue);
-});
+}
 
 // Ajouter un écouteur d'événement à la barre de recherche des appareils
 const appliancesSearchInput = document.querySelector('#tag-appliances-search');
-appliancesSearchInput.addEventListener('input', () => {
+appliancesSearchInput.addEventListener('input', updateApplianceSearch);
+
+function updateApplianceSearch() {
     // Récupérer la valeur de recherche pour les appareils
     const searchValue = appliancesSearchInput.value.trim().toLowerCase();
     // Mettre à jour les appareils affichés
     updateDisplayedTags('appliances', searchValue);
-});
+}
 
 // Ajouter un écouteur d'événement à la barre de recherche des ustensiles
 const ustensilsSearchInput = document.querySelector('#tag-ustensils-search');
-ustensilsSearchInput.addEventListener('input', () => {
+ustensilsSearchInput.addEventListener('input', updateUstensilSearch);
+
+function updateUstensilSearch() {
     // Récupérer la valeur de recherche pour les ustensiles
     const searchValue = ustensilsSearchInput.value.trim().toLowerCase();
     // Mettre à jour les ustensiles affichés
     updateDisplayedTags('ustensils', searchValue);
-});
+}
 
 // filtrer et afficher les tags correspondants 
 function updateDisplayedTags(tagType, searchValue) {
