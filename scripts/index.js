@@ -1,5 +1,5 @@
 import * as View from "./lib/view.js";
-import * as Search from "./lib/search2.js";
+import * as Search from "./lib/search.js";
 import { recipes as recipesSource } from "../datas/recipes.js";
 
 const searchInput = document.querySelector('#search-input');
