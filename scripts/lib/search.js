@@ -1,3 +1,7 @@
+// prog boucles natives => utiliser les boucles natives (while, for...)
+
+// traitement des données => controleur
+
 // Filtrer les résultats de recette selon la recherche
 export function filter(recipesParam, searchValue, tags) {
     console.log("filtrer les résultats");
