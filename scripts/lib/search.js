@@ -46,9 +46,17 @@ export function filter(recipesParam, searchValue, tags) {
     }
 
     if (searchValue.length >= 3) {
-        // Filtre initial en fonction de la valeur de recherche
-        filteredRecipes = filteredRecipes.filter(filterOnValue);
+        const newFilteredRecipes = [];
+
+        for (const recipe of filteredRecipes) {
+            if (filterOnValue(recipe)) {
+                newFilteredRecipes.push(recipe);
+            }
+        }
+
+        filteredRecipes = newFilteredRecipes;
     }
+
 
     // Filtrer en fonction des tags
     for (const tag of tags) {
