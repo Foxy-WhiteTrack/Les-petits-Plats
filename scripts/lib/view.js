@@ -18,17 +18,22 @@ tagCtn.forEach(element => {
 export function displayError(searchValue, usedTags) {
     console.log("displayError");
     const errorDiv = document.querySelector('#error-container');
+
+    const errorMessage = `Aucune recette ne correspond à la recherche "${searchValue} " ${usedTags} vous pouvez chercher « tarte aux pommes », « poisson », etc`;
+
     if (!errorDiv) {
-        const errorDiv = document.createElement('div');
-        errorDiv.innerHTML = `<p id="error-container">Aucune recette ne correspond à la recherche "${searchValue} " ${usedTags} vous pouvez chercher «
-        tarte aux pommes », « poisson », etc</p>`;
-        document.body.appendChild(errorDiv);
+        const newErrorDiv = document.createElement('div');
+        const textNode = document.createTextNode(errorMessage);
+        newErrorDiv.id = 'error-container';
+        newErrorDiv.appendChild(textNode);
+        document.body.appendChild(newErrorDiv);
     } else {
-        errorDiv.innerHTML = `<p>Aucune recette ne correspond à la recherche "${searchValue} " ${usedTags} vous pouvez chercher «
-        tarte aux pommes », « poisson », etc</p>`;
-        document.body.appendChild(errorDiv);
+        errorDiv.innerHTML = ''; // Nettoyer le contenu précédent
+        const textNode = document.createTextNode(errorMessage);
+        errorDiv.appendChild(textNode);
     }
 }
+
 
 export function clearDisplayError() {
     console.log("clearDisplayError");
