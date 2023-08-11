@@ -65,7 +65,7 @@ export function recipeFactory(data) {
         article.innerHTML = `                    <a href="#" data-id="${id}">
         <div class="ctn-image">
             <img src="${picture}" alt="Image de la recette ${name}">
-            <div class="tmp">${time}</div>
+            <div class="tmp">${time} min</div>
         </div>
         <div class="recipe-infos">
             <div class="ctn-txt">
