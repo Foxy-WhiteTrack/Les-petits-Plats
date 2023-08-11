@@ -21,6 +21,9 @@ export function displayError(searchValue, usedTags) {
 
     const errorMessage = `Aucune recette ne correspond à la recherche "${searchValue} " ${usedTags} vous pouvez chercher « tarte aux pommes », « poisson », etc`;
 
+    const nbrRecipesElement = document.querySelector('#nbr-recipes');
+    nbrRecipesElement.textContent = `0 recette`;
+
     if (!errorDiv) {
         const newErrorDiv = document.createElement('div');
         const textNode = document.createTextNode(errorMessage);
