@@ -18,6 +18,8 @@ tagCtn.forEach(element => {
 export function displayError(searchValue, usedTags) {
     console.log("displayError");
     const errorDiv = document.querySelector('#error-container');
+    const nbrRecipesElement = document.querySelector('#nbr-recipes');
+    nbrRecipesElement.textContent = `0 recette`;
     if (!errorDiv) {
         const errorDiv = document.createElement('div');
         errorDiv.innerHTML = `<p id="error-container">Aucune recette ne correspond à la recherche "${searchValue} " ${usedTags} vous pouvez chercher «
